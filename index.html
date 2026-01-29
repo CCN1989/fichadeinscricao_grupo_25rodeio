@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha de Inscrição - Grupos de Dança</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff7f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(to right, #ff7a00, #ffb347);
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+
+    header img {
+      width: 85px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 12px rgba(0,0,0,0.2);
+    }
+
+    .section-title {
+      background: #ff7a00;
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 40px;
+      font-size: 18px;
+    }
+
+    .category-box {
+      border: 2px solid #ffd2a8;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    th {
+      background: #ffe0c2;
+    }
+
+    input, select {
+      width: 95%;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .btn-add {
+      margin-top: 10px;
+      background: #ff7a00;
+      border: none;
+      padding: 7px 14px;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-remove {
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      margin-top: 50px;
+      width: 100%;
+      padding: 14px;
+      background: #ff7a00;
+      color: white;
+      border: none;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+     footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-top">
+    <img src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/Logo%20pequeno.png">
+
+    <div>
+      <h2>25º Rodeio Nativista de Esteio</h2>
+      <p><b>Ficha de Inscrição - Grupos de Dança</b></p>
+      <p>(Até 25 integrantes por categoria)</p>
+    </div>
+
+    <img src="https://github.com/CCN1989/Imagens/blob/main/12RT.png?raw=true">
+  </div>
+</header>
+
+<main>
+
+  <!-- Dados Entidade -->
+  <div class="section-title">Dados da Entidade</div>
+
+  <div class="category-box">
+    <table>
+      <tr>
+        <td>Entidade *</td><td><input required></td>
+        <td>Município *</td><td><input required></td>
+      </tr>
+      <tr>
+        <td>RT *</td><td><input required></td>
+        <td>Email *</td><td><input required></td>
+      </tr>
+      <tr>
+        <td>Patrão</td><td><input></td>
+        <td>WhatsApp *</td><td><input required></td>
+      </tr>
+      <tr>
+        <td>Responsável Inscrição *</td>
+        <td colspan="3"><input required></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Categorias -->
+  <div id="categorias"></div>
+
+  <button class="btn-submit">Enviar Inscrição</button>
+
+</main>
+
+<footer>
+  Sistema de incrição - CTG Chama Nativa © 2026 - dúvidas secretaria@ctgchamanativa.com.br
+</footer>
+
+<script>
+  const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
+  const LIMITE = 25;
+
+  function criarCategoria(nome) {
+
+    let box = document.createElement("div");
+    box.className = "category-box";
+
+    box.innerHTML = `
+      <h3>${nome}</h3>
+
+      <!-- Informações da apresentação -->
+      <table>
+        <tr>
+          <td>Dança Tradicional 1 *</td><td><input required></td>
+          <td>Dança Tradicional 2 *</td><td><input required></td>
+        </tr>
+        <tr>
+          <td>Dança Tradicional 3 *</td><td><input required></td>
+          <td>Musical *</td>
+          <td>
+            <select required>
+              <option value="">Selecione</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Coreografia Avaliada *</td>
+          <td colspan="3">
+            <select required>
+              <option value="">Selecione</option>
+              <option>Entrada</option>
+              <option>Saída</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Comprovante PIX *</td>
+          <td colspan="3">
+            <input type="file" required>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Integrantes -->
+      <table>
+        <thead>
+          <tr>
+            <th>Integrante</th>
+            <th>Nascimento</th>
+            <th>Cartão</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody id="${nome}-body"></tbody>
+      </table>
+
+      <button class="btn-add" onclick="addIntegrante('${nome}')">
+        + Adicionar Integrante (até 25)
+      </button>
+    `;
+
+    return box;
+  }
+
+  function addIntegrante(cat) {
+
+    let tbody = document.getElementById(`${cat}-body`);
+
+    if (tbody.rows.length >= LIMITE) {
+      alert("Limite máximo: 25 integrantes por categoria.");
+      return;
+    }
+
+    let row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><input placeholder="Nome do Integrante"></td>
+      <td><input type="date"></td>
+      <td><input placeholder="Cartão Tradicionalista"></td>
+      <td><button class="btn-remove" onclick="removeRow(this)">X</button></td>
+    `;
+
+    tbody.appendChild(row);
+  }
+
+  function removeRow(btn) {
+    btn.closest("tr").remove();
+  }
+
+  // Renderizar categorias
+  const container = document.getElementById("categorias");
+
+  categorias.forEach(cat => {
+    container.innerHTML += `<div class="section-title">${cat}</div>`;
+    container.appendChild(criarCategoria(cat));
+    addIntegrante(cat); // linha inicial
+  });
+
+</script>
+
+</body>
+</html>
