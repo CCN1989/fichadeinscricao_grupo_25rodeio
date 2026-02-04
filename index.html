@@ -185,6 +185,28 @@ header {
   display: block;
 }
 
+.botoes-final {
+  display: flex;
+  gap: 15px;
+  margin-top: 50px;
+}
+
+.btn-voltar {
+  width: 100%;
+  padding: 14px;
+  background: #555;
+  color: white;
+  border: none;
+  font-size: 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-voltar:hover {
+  background: #333;
+}
 
 
   </style>
@@ -248,7 +270,20 @@ header {
   <!-- Categorias -->
   <div id="categorias"></div>
 
-  <button class="btn-submit">Enviar Inscrição</button>
+  <div class="botoes-final">
+
+  <!-- ✅ BOTÃO ENVIAR -->
+  <button class="btn-submit" type="submit">
+    Enviar Inscrição
+  </button>
+
+  <!-- ✅ BOTÃO VOLTAR AO SITE -->
+  <a class="btn-voltar" href="https://www.ctgchamanativa.com.br" target="_blank">
+    Voltar ao Site
+  </a>
+
+</div>
+
 
 </main>
 
@@ -362,3 +397,4 @@ header {
 
 </body>
 </html>
+
