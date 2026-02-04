@@ -1,24 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ficha de Inscrição - Grupos de Dança</title>
-
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #fff7f0;
-      margin: 0;
-      padding: 0;
-    }
+  font-family: Arial, sans-serif;
+  background: #fff7f0;
+  margin: 0;
+  padding: 0;
+}
 
     header {
-      background: linear-gradient(to right, #ff7a00, #ffb347);
-      padding: 20px;
-      color: white;
-      text-align: center;
-    }
+  width: 100vw;       /* largura total da tela */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
     header img {
       width: 85px;
@@ -57,6 +51,11 @@
       margin-top: 20px;
     }
 
+    .category-box h3 {
+      margin: 0;
+      color: #cc5f00;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -74,11 +73,28 @@
       background: #ffe0c2;
     }
 
-    input, select {
+    input {
       width: 95%;
       padding: 6px;
       border-radius: 6px;
       border: 1px solid #ccc;
+    }
+
+    /* 🎨 CORES */
+    .input-prenda {
+      background: #ffe6ef;
+      border: 1px solid #ff99bb;
+    }
+
+    .input-peao {
+      background: #e6f0ff;
+      border: 1px solid #77aaff;
+    }
+
+    .input-danca {
+      background: #fff6db;
+      border: 1px solid #ffcc66;
+      font-weight: bold;
     }
 
     .btn-add {
@@ -100,6 +116,18 @@
       cursor: pointer;
     }
 
+    /* SUPLENTE */
+    .suplente {
+      background: #fff3cd !important;
+      border: 2px solid #ff9900;
+    }
+
+    .tag-suplente {
+      color: red;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
     .btn-submit {
       margin-top: 50px;
       width: 100%;
@@ -112,12 +140,53 @@
       cursor: pointer;
     }
 
-     footer {
+    footer {
       text-align: center;
       margin-top: 20px;
       font-size: 12px;
       color: gray;
     }
+
+    .regulamento-box {
+  margin-top: 20px;
+  padding: 12px;
+  background: #fff3e0;
+  border: 2px solid #ff7a00;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.regulamento-box a {
+  color: #cc5f00;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.regulamento-box a:hover {
+  text-decoration: underline;
+}
+
+.regulamento-box input[type="checkbox"] {
+  width: auto;
+  transform: scale(1.2);
+  margin-right: 8px;
+}
+
+header {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.testeira {
+  width: 100vw;        /* ocupa toda a tela */
+  max-width: 105%;     
+  height: auto;
+  display: block;
+}
+
+
+
   </style>
 </head>
 
@@ -125,13 +194,14 @@
 
 <header>
   <div class="header-top">
-    <img src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/Logo%20pequeno.png">
+    <!-- ✅ TESTEIRA IMAGEM -->
+ <header>
+  <img class="testeira"
+       src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png"
+       alt="Testeira Oficial">
+</header>
 
-    <div>
-      <h2>25º Rodeio Nativista de Esteio</h2>
-      <p><b>Ficha de Inscrição - Grupos de Dança</b></p>
-      <p>(Até 25 integrantes por categoria)</p>
-    </div>
+  </div
 
     <img src="https://github.com/CCN1989/Imagens/blob/main/12RT.png?raw=true">
   </div>
@@ -139,7 +209,6 @@
 
 <main>
 
-  <!-- Dados Entidade -->
   <div class="section-title">Dados da Entidade</div>
 
   <div class="category-box">
@@ -162,6 +231,19 @@
       </tr>
     </table>
   </div>
+
+</div>
+
+<!-- ✅ CHECKBOX REGULAMENTO -->
+<div class="regulamento-box">
+  <label>
+    <input type="checkbox" required>
+    Declaro que li e estou de acordo com o
+    <a href="REGULAMENTO.pdf" target="_blank">
+      Regulamento Oficial do Rodeio
+    </a>.
+  </label>
+</div>
 
   <!-- Categorias -->
   <div id="categorias"></div>
