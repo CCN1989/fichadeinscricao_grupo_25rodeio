@@ -403,17 +403,37 @@ header {
 
       const tbody = document.getElementById(`${cat}-body`);
 
-      if (tbody && tbody.rows.length > 0) {
+     if (tbody) {
 
-        let integrantes = [];
+  let integrantes = [];
 
-        Array.from(tbody.rows).forEach(tr => {
-          integrantes.push({
-            nome: tr.cells[0].querySelector("input").value,
-            nascimento: tr.cells[1].querySelector("input").value,
-            cartao: tr.cells[2].querySelector("input").value
-          });
-        });
+  Array.from(tbody.rows).forEach(tr => {
+
+    const nome = tr.cells[0].querySelector("input").value.trim();
+
+    if (nome !== "") {
+      integrantes.push({
+        nome: nome,
+        nascimento: tr.cells[1].querySelector("input").value,
+        cartao: tr.cells[2].querySelector("input").value
+      });
+    }
+
+  });
+
+  if (integrantes.length > 0) {
+
+    categoriasEnvio.push({
+      nome: cat,
+      danca1: "...",
+      danca2: "...",
+      danca3: "...",
+      musical: "...",
+      integrantes: integrantes
+    });
+
+  }
+}
 
         categoriasEnvio.push({
           nome: cat,
