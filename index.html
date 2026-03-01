@@ -51,6 +51,14 @@
       margin-top: 20px;
     }
 
+    .btn-voltar {
+  background: #cc5f00;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
     .category-box h3 {
       margin: 0;
       color: #cc5f00;
@@ -191,28 +199,9 @@ header {
   margin-top: 50px;
 }
 
-.btn-voltar {
-  margin-top: 50px;
-  width: 100%;
-  padding: 14px;
-  background: #ff7a00;
-  color: white;
-  border: none;
-  font-size: 18px;
-  border-radius: 12px;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-}
-         
-.btn-voltar:hover {
-  background: #fde400;
-  color: rgb(2, 2, 2);
-}
-
-.btn-submit:hover {
-  background: #fde400;
-  color: rgb(2, 2, 2);
+.botoes-final .btn-submit {
+  width: 50%;
+  margin-top: 0; /* remove o margin-top antigo */
 }
 
   </style>
@@ -277,19 +266,16 @@ header {
   <div id="categorias"></div>
 
   <div class="botoes-final">
-
-  <!-- ✅ BOTÃO ENVIAR -->
-  <button class="btn-submit" type="submit">
+  <button type="button" class="btn-submit" id="btnEnviar" onclick="enviar()">
     Enviar Inscrição
   </button>
 
-  <!-- ✅ BOTÃO VOLTAR AO SITE -->
-  <a class="btn-voltar" href="https://www.ctgchamanativa.com.br" target="_blank">
-    Voltar ao Site
+  <a class="btn-submit" 
+     style="background:#cc5f00; text-align:center; display:block; "
+     href="https://www.ctgchamanativa.com.br">
+     Voltar ao site
   </a>
-
 </div>
-
 
 </main>
 
@@ -323,16 +309,6 @@ header {
               <option value="">Selecione</option>
               <option>Sim</option>
               <option>Não</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>Coreografia Avaliada *</td>
-          <td colspan="3">
-            <select required>
-              <option value="">Selecione</option>
-              <option>Entrada</option>
-              <option>Saída</option>
             </select>
           </td>
         </tr>
@@ -399,6 +375,84 @@ header {
     addIntegrante(cat); // linha inicial
   });
 
+  async function enviar() {
+
+  const botao = document.getElementById("btnEnviar");
+  botao.disabled = true;
+  botao.innerText = "Enviando...";
+
+  const fileInput = document.querySelector('input[type="file"]');
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Envie o comprovante PIX.");
+    botao.disabled = false;
+    botao.innerText = "Enviar Inscrição";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = async function () {
+
+    const base64 = reader.result.split(',')[1];
+
+    let categoriasEnvio = [];
+
+    categorias.forEach(cat => {
+
+      const tbody = document.getElementById(`${cat}-body`);
+
+      if (tbody && tbody.rows.length > 0) {
+
+        let integrantes = [];
+
+        Array.from(tbody.rows).forEach(tr => {
+          integrantes.push({
+            nome: tr.cells[0].querySelector("input").value,
+            nascimento: tr.cells[1].querySelector("input").value,
+            cartao: tr.cells[2].querySelector("input").value
+          });
+        });
+
+        categoriasEnvio.push({
+          nome: cat,
+          danca1: "...",
+          danca2: "...",
+          danca3: "...",
+          musical: "...",
+          integrantes: integrantes
+        });
+      }
+
+    });
+
+    await fetch("https://script.google.com/macros/s/AKfycbyO6X6cRK_ovLgtFuqN3hBFvfkBCgBu-1eR6O96KWI6hlJsf8PNi66FZi63NlA9ZEk2/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        entidade: document.querySelectorAll("input")[0].value,
+        municipio: document.querySelectorAll("input")[1].value,
+        rt: document.querySelectorAll("input")[2].value,
+        email: document.querySelectorAll("input")[3].value,
+        patrao: document.querySelectorAll("input")[4].value,
+        whats: document.querySelectorAll("input")[5].value,
+        responsavel: document.querySelectorAll("input")[6].value,
+        categorias: categoriasEnvio,
+        arquivo: {
+          nome: file.name,
+          tipo: file.type,
+          base64: base64
+        }
+      })
+    });
+
+    alert("Inscrição enviada com sucesso!");
+
+    location.reload();
+  };
+
+  reader.readAsDataURL(file);
+}
 </script>
 
 </body>
