@@ -488,20 +488,25 @@ async function enviar() {
 
  try {
 
- 
-const formData = new URLSearchParams();
-formData.append("dados", JSON.stringify(dados));
+  const response = await fetch(URL_SCRIPT, {
+    method: "POST",
+    body: JSON.stringify(dados)
+  });
 
-const response = await fetch(URL_SCRIPT, {
-  method: "POST",
-  body: formData
-});
+  const texto = await response.text();
+  console.log("Resposta do servidor:", texto);
 
-const texto = await response.text();
+  if (texto !== "OK") {
+    throw new Error("Resposta inesperada do servidor");
+  }
 
-if (texto !== "OK") {
-  throw new Error("Resposta inesperada do servidor");
+  alert("Inscrição enviada com sucesso!");
+
+} catch (erro) {
+  console.error("Erro real:", erro);
+  alert("Erro de conexão com o servidor.");
 }
+
   document.getElementById("btnEnviar").disabled = false;
   document.getElementById("btnEnviar").innerText = "Enviar Inscrição";
 }
@@ -546,7 +551,6 @@ z-index:9999;
 </form>
 </body>
 </html>
-
 
 
 
