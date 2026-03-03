@@ -243,7 +243,7 @@ Sistema de inscrição - CTG Chama Nativa © 2026
 </footer>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwNLzjShuHC2WjDVCiI246u7xF3udRHCL3uNEW-vKXNDJGdPNZ_PiwE910qNFdiQI-r/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbx8bVymJA1d5_SeyPtQj2nhdzZgFqFwQWwsTBgFUicTY-sZNKkJyviOvysZALEdF3ij/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE = 25;
 
@@ -488,25 +488,20 @@ async function enviar() {
 
  try {
 
-  const response = await fetch(URL_SCRIPT, {
-    method: "POST",
-    body: JSON.stringify(dados)
-  });
+ 
+const formData = new URLSearchParams();
+formData.append("dados", JSON.stringify(dados));
 
-  const texto = await response.text();
-  console.log("Resposta do servidor:", texto);
+const response = await fetch(URL_SCRIPT, {
+  method: "POST",
+  body: formData
+});
 
-  if (texto !== "OK") {
-    throw new Error("Resposta inesperada do servidor");
-  }
+const texto = await response.text();
 
-  alert("Inscrição enviada com sucesso!");
-
-} catch (erro) {
-  console.error("Erro real:", erro);
-  alert("Erro de conexão com o servidor.");
+if (texto !== "OK") {
+  throw new Error("Resposta inesperada do servidor");
 }
-
   document.getElementById("btnEnviar").disabled = false;
   document.getElementById("btnEnviar").innerText = "Enviar Inscrição";
 }
@@ -551,6 +546,7 @@ z-index:9999;
 </form>
 </body>
 </html>
+
 
 
 
