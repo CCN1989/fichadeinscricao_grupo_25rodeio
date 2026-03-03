@@ -253,7 +253,7 @@ Sistema de inscrição - CTG Chama Nativa © 2026
 </footer>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyQrDIOIBAYglUsaaLii7IyC3FI0Y87MM0l8O9z8_DPYAcDQ1kjTKkVkAl6X9zbAjod/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzmatmpjBAeZeF2ElYurvvNK98EByZvneVIRYaqUgN0URy4aoAWB0u1B4lR_zxue2kf/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE = 25;
 
@@ -498,7 +498,7 @@ async function enviar() {
 
   try {
 
-    const response = await fetch(URL_SCRIPT, {
+  const response = await fetch(URL_SCRIPT, {
   method: "POST",
   body: JSON.stringify(dados)
 });
@@ -558,5 +558,6 @@ z-index:9999;
 </form>
 </body>
 </html>
+
 
 
