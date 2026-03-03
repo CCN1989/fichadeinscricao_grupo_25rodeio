@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-  <style>
-    body {
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
   font-family: Arial, sans-serif;
   background: #fff7f0;
   margin: 0;
   padding: 0;
 }
 
-    header {
-  width: 100vw;       /* largura total da tela */
+header {
+  width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
-    header img {
-      width: 85px;
-    }
+.testeira {
+  width: 100%;
+  display: block;
+}
 
-    .header-top {
+.header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -26,171 +31,72 @@
       margin: auto;
     }
 
-    main {
-      max-width: 1100px;
-      margin: 30px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0px 0px 12px rgba(0,0,0,0.2);
-    }
-
-    .section-title {
-      background: #ff7a00;
-      color: white;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 40px;
-      font-size: 18px;
-    }
-
-    .category-box {
-      border: 2px solid #ffd2a8;
-      padding: 15px;
-      border-radius: 12px;
-      margin-top: 20px;
-    }
-
-    .btn-voltar {
-  background: #cc5f00;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+main {
+  max-width: 1100px;
+  margin: 30px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 12px rgba(0,0,0,0.2);
 }
 
-    .category-box h3 {
-      margin: 0;
-      color: #cc5f00;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    th {
-      background: #ffe0c2;
-    }
-
-    input {
-      width: 95%;
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    /* 🎨 CORES */
-    .input-prenda {
-      background: #ffe6ef;
-      border: 1px solid #ff99bb;
-    }
-
-    .input-peao {
-      background: #e6f0ff;
-      border: 1px solid #77aaff;
-    }
-
-    .input-danca {
-      background: #fff6db;
-      border: 1px solid #ffcc66;
-      font-weight: bold;
-    }
-
-    .btn-add {
-      margin-top: 10px;
-      background: #ff7a00;
-      border: none;
-      padding: 7px 14px;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .btn-remove {
-      background: red;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    /* SUPLENTE */
-    .suplente {
-      background: #fff3cd !important;
-      border: 2px solid #ff9900;
-    }
-
-    .tag-suplente {
-      color: red;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    .btn-submit {
-      margin-top: 50px;
-      width: 100%;
-      padding: 14px;
-      background: #ff7a00;
-      color: white;
-      border: none;
-      font-size: 18px;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 12px;
-      color: gray;
-    }
-
-    .regulamento-box {
-  margin-top: 20px;
+.section-title {
+  background: #ff7a00;
+  color: white;
   padding: 12px;
-  background: #fff3e0;
-  border: 2px solid #ff7a00;
   border-radius: 10px;
-  font-size: 14px;
+  margin-top: 40px;
+  font-size: 18px;
 }
 
-.regulamento-box a {
-  color: #cc5f00;
-  font-weight: bold;
-  text-decoration: none;
+.category-box {
+  border: 2px solid #ffd2a8;
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 20px;
 }
 
-.regulamento-box a:hover {
-  text-decoration: underline;
-}
-
-.regulamento-box input[type="checkbox"] {
-  width: auto;
-  transform: scale(1.2);
-  margin-right: 8px;
-}
-
-header {
-  padding: 0;
-  margin: 0;
+table {
   width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
-.testeira {
-  width: 100vw;        /* ocupa toda a tela */
-  max-width: 105%;     
-  height: auto;
-  display: block;
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+th {
+  background: #ffe0c2;
+}
+
+input, select {
+  width: 95%;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.btn-add {
+  margin-top: 10px;
+  background: #ff7a00;
+  border: none;
+  padding: 7px 14px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-remove {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 .botoes-final {
@@ -199,12 +105,50 @@ header {
   margin-top: 50px;
 }
 
-.botoes-final .btn-submit {
+.btn-submit {
   width: 50%;
-  margin-top: 0; /* remove o margin-top antigo */
+  padding: 14px;
+  background: #ff7a00;
+  color: white;
+  border: none;
+  font-size: 18px;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
-  </style>
+.btn-voltar {
+  background: #cc5f00;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: gray;
+}
+
+.mensagem-erro {
+  background: #ffe6e6;
+  color: #b30000;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.btn-erro {
+  background: #cc0000 !important;
+}
+
+<a class="btn-submit btn-voltar"
+href="https://www.ctgchamanativa.com.br">
+Voltar ao site
+</a>
+</style>
 </head>
 
 <body>
@@ -224,256 +168,395 @@ header {
   </div>
 </header>
 
+<form id="formInscricao">
 <main>
 
-  <div class="section-title">Dados da Entidade</div>
+<div class="section-title">Dados da Entidade</div>
 
-  <div class="category-box">
-    <table>
-      <tr>
-        <td>Entidade *</td><td><input required></td>
-        <td>Município *</td><td><input required></td>
-      </tr>
-      <tr>
-        <td>RT *</td><td><input required></td>
-        <td>Email *</td><td><input required></td>
-      </tr>
-      <tr>
-        <td>Patrão</td><td><input></td>
-        <td>WhatsApp *</td><td><input required></td>
-      </tr>
-      <tr>
-        <td>Responsável Inscrição *</td>
-        <td colspan="3"><input required></td>
-      </tr>
-    </table>
-  </div>
-
+<div class="category-box">
+<table>
+<tr>
+<td>Entidade *</td><td><input id="entidade" required></td>
+<td>Município *</td><td><input id="municipio" required></td>
+</tr>
+<tr>
+<td>RT *</td>
+<td>
+  <select id="rt" required>
+    <option value="">Selecione a RT</option>
+    <option>1ª RT</option>
+    <option>2ª RT</option>
+    <option>3ª RT</option>
+    <option>4ª RT</option>
+    <option>5ª RT</option>
+    <option>6ª RT</option>
+    <option>7ª RT</option>
+    <option>8ª RT</option>
+    <option>9ª RT</option>
+    <option>10ª RT</option>
+    <option>11ª RT</option>
+    <option>12ª RT</option>
+    <option>13ª RT</option>
+    <option>14ª RT</option>
+    <option>15ª RT</option>
+    <option>16ª RT</option>
+    <option>17ª RT</option>
+    <option>18ª RT</option>
+    <option>19ª RT</option>
+    <option>20ª RT</option>
+    <option>21ª RT</option>
+    <option>22ª RT</option>
+    <option>23ª RT</option>
+    <option>24ª RT</option>
+    <option>25ª RT</option>
+    <option>26ª RT</option>
+    <option>27ª RT</option>
+    <option>28ª RT</option>
+    <option>29ª RT</option>
+    <option>30ª RT</option>
+  </select>
+</td>
+<td>Email *</td><td><input id="email" required></td>
+</tr>
+<tr>
+<td>Patrão</td><td><input id="patrao"></td>
+<td>WhatsApp *</td><td><input id="whats" required></td>
+</tr>
+<tr>
+<td>Responsável Inscrição *</td>
+<td colspan="3"><input id="responsavel" required></td>
+</tr>
+</table>
 </div>
 
-<!-- ✅ CHECKBOX REGULAMENTO -->
-<div class="regulamento-box">
-  <label>
-    <input type="checkbox" required>
-    Declaro que li e estou de acordo com o
-    <a href="REGULAMENTO.pdf" target="_blank">
-      Regulamento Oficial do Rodeio
-    </a>.
-  </label>
-</div>
 
-  <!-- Categorias -->
-  <div id="categorias"></div>
 
-  <div class="botoes-final">
-  <button type="button" class="btn-submit" id="btnEnviar" onclick="enviar()">
-    Enviar Inscrição
-  </button>
+<div class="section-title">Categorias</div>
+<div id="categorias"></div>
 
-  <a class="btn-submit" 
-     style="background:#cc5f00; text-align:center; display:block; "
-     href="https://www.ctgchamanativa.com.br">
-     Voltar ao site
-  </a>
+<div class="botoes-final">
+<button type="button" class="btn-submit" id="btnEnviar" onclick="enviar()">
+Enviar Inscrição
+</button>
+<div id="mensagemErro"></div>
+
+<a class="btn-submit btn-voltar"
+href="https://www.ctgchamanativa.com.br">
+Voltar ao site
+</a>
 </div>
 
 </main>
 
 <footer>
-  Sistema de incrição - CTG Chama Nativa © 2026 - dúvidas secretaria@ctgchamanativa.com.br
+Sistema de inscrição - CTG Chama Nativa © 2026
 </footer>
 
 <script>
-  const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
-  const LIMITE = 25;
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwSLvKuMzcq2RZF5_0ok80z5JdgeEoSd_l6dqL9MHo0cwEQAwarHomaPgB2O0HdKyjH/exec"; 
+const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
+const LIMITE = 25;
 
-  function criarCategoria(nome) {
+const container = document.getElementById("categorias");
 
-    let box = document.createElement("div");
-    box.className = "category-box";
+categorias.forEach(nome => {
+  const wrapper = document.createElement("div");
+  wrapper.className = "category-box";
 
-    box.innerHTML = `
-      <h3>${nome}</h3>
+  wrapper.innerHTML = `
+    <button type="button" class="accordion-btn" id="btn-${nome}"
+      onclick="toggleCategoria('${nome}')">
+      + ${nome}
+    </button>
+    <div id="conteudo-${nome}" class="accordion-content"></div>
+  `;
 
-      <!-- Informações da apresentação -->
-      <table>
-        <tr>
-          <td>Dança Tradicional 1 *</td><td><input required></td>
-          <td>Dança Tradicional 2 *</td><td><input required></td>
-        </tr>
-        <tr>
-          <td>Dança Tradicional 3 *</td><td><input required></td>
-          <td>Musical *</td>
-          <td>
-            <select required>
-              <option value="">Selecione</option>
-              <option>Sim</option>
-              <option>Não</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>Comprovante PIX *</td>
-          <td colspan="3">
-            <input type="file" required>
-          </td>
-        </tr>
-      </table>
+  container.appendChild(wrapper);
+});
 
-      <!-- Integrantes -->
-      <table>
-        <thead>
-          <tr>
-            <th>Integrante</th>
-            <th>Nascimento</th>
-            <th>Cartão</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody id="${nome}-body"></tbody>
-      </table>
+function toggleCategoria(nome) {
+  const content = document.getElementById(`conteudo-${nome}`);
+  const btn = document.getElementById(`btn-${nome}`);
 
-      <button class="btn-add" onclick="addIntegrante('${nome}')">
-        + Adicionar Integrante (até 25)
-      </button>
-    `;
-
-    return box;
+  if (content.style.maxHeight) {
+    content.style.maxHeight = null;
+    content.innerHTML = "";
+    btn.innerHTML = `+ ${nome}`;
+  } else {
+    abrirCategoria(nome);
+    content.style.maxHeight = content.scrollHeight + "px";
+    btn.innerHTML = `− Fechar ${nome}`;
   }
+}
 
-  function addIntegrante(cat) {
+function abrirCategoria(nome) {
+  const div = document.getElementById(`conteudo-${nome}`);
 
-    let tbody = document.getElementById(`${cat}-body`);
+  div.innerHTML = `
+    <table>
+      <tr>
+        <td>Dança 1 *</td><td><input required></td>
+        <td>Dança 2 *</td><td><input required></td>
+      </tr>
+      <tr>
+        <td>Dança 3 *</td><td><input required></td>
+        <td>Musical *</td>
+        <td>
+          <select required>
+            <option value="">Selecione</option>
+            <option>Sim</option>
+            <option>Não</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Comprovante PIX *</td>
+        <td colspan="3"><input type="file" required></td>
+      </tr>
+    </table>
 
-    if (tbody.rows.length >= LIMITE) {
-      alert("Limite máximo: 25 integrantes por categoria.");
-      return;
-    }
+    <div class="contador">
+      Integrantes: <span id="contador-${nome}">0</span> / ${LIMITE}
+    </div>
 
-    let row = document.createElement("tr");
+    <table>
+      <thead>
+        <tr>
+          <th>Integrante *</th>
+          <th>Nascimento *</th>
+          <th>Cartão *</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody id="${nome}-body"></tbody>
+    </table>
 
-    row.innerHTML = `
-      <td><input placeholder="Nome do Integrante"></td>
-      <td><input type="date"></td>
-      <td><input placeholder="Cartão Tradicionalista"></td>
-      <td><button class="btn-remove" onclick="removeRow(this)">X</button></td>
-    `;
+    <button type="button" class="btn-add" onclick="addIntegrante('${nome}')">
+      + Adicionar Integrante
+    </button>
+  `;
 
-    tbody.appendChild(row);
-  }
+  atualizarAltura(nome);
+}
 
-  function removeRow(btn) {
-    btn.closest("tr").remove();
-  }
+function addIntegrante(cat) {
+  const tbody = document.getElementById(`${cat}-body`);
 
-  // Renderizar categorias
-  const container = document.getElementById("categorias");
-
-  categorias.forEach(cat => {
-    container.innerHTML += `<div class="section-title">${cat}</div>`;
-    container.appendChild(criarCategoria(cat));
-    addIntegrante(cat); // linha inicial
-  });
-
-  async function enviar() {
-
-  const botao = document.getElementById("btnEnviar");
-  botao.disabled = true;
-  botao.innerText = "Enviando...";
-
-  const fileInput = document.querySelector('input[type="file"]');
-  const file = fileInput.files[0];
-
-  if (!file) {
-    alert("Envie o comprovante PIX.");
-    botao.disabled = false;
-    botao.innerText = "Enviar Inscrição";
+  if (tbody.rows.length >= LIMITE) {
+    alert("Limite máximo: 25 integrantes.");
     return;
   }
 
-  const reader = new FileReader();
+  const row = document.createElement("tr");
 
-  reader.onload = async function () {
+  row.innerHTML = `
+    <td><input required></td>
+    <td><input type="date" required></td>
+    <td><input required></td>
+    <td><button type="button" class="btn-remove" onclick="removeRow(this, '${cat}')">X</button></td>
+  `;
 
-    const base64 = reader.result.split(',')[1];
-
-    let categoriasEnvio = [];
-
-    categorias.forEach(cat => {
-
-      const tbody = document.getElementById(`${cat}-body`);
-
-     if (tbody) {
-
-  let integrantes = [];
-
-  Array.from(tbody.rows).forEach(tr => {
-
-    const nome = tr.cells[0].querySelector("input").value.trim();
-
-    if (nome !== "") {
-      integrantes.push({
-        nome: nome,
-        nascimento: tr.cells[1].querySelector("input").value,
-        cartao: tr.cells[2].querySelector("input").value
-      });
-    }
-
-  });
-
-  if (integrantes.length > 0) {
-
-    categoriasEnvio.push({
-      nome: cat,
-      danca1: "...",
-      danca2: "...",
-      danca3: "...",
-      musical: "...",
-      integrantes: integrantes
-    });
-
-  }
+  tbody.appendChild(row);
+  atualizarContador(cat);
+  atualizarAltura(cat);
 }
 
-        categoriasEnvio.push({
-          nome: cat,
-          danca1: "...",
-          danca2: "...",
-          danca3: "...",
-          musical: "...",
-          integrantes: integrantes
-        });
+function removeRow(btn, cat) {
+  btn.closest("tr").remove();
+  atualizarContador(cat);
+  atualizarAltura(cat);
+}
+
+function atualizarContador(cat) {
+  const total = document.getElementById(`${cat}-body`).rows.length;
+  document.getElementById(`contador-${cat}`).innerText = total;
+}
+
+function atualizarAltura(nome) {
+  const content = document.getElementById(`conteudo-${nome}`);
+  content.style.maxHeight = content.scrollHeight + "px";
+}
+
+async function enviar() {
+
+  const form = document.getElementById("formInscricao");
+  const mensagemDiv = document.getElementById("mensagemErro");
+  mensagemDiv.innerHTML = "";
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  let categoriaAberta = false;
+  let erro = false;
+  let categoriasEnviar = [];
+
+  for (let nome of categorias) {
+
+    const content = document.getElementById(`conteudo-${nome}`);
+    const btn = document.getElementById(`btn-${nome}`);
+
+    if (content && content.style.maxHeight) {
+
+      categoriaAberta = true;
+
+      const inputs = content.querySelectorAll("input, select");
+      const tbody = document.getElementById(`${nome}-body`);
+
+      if (tbody.rows.length === 0) {
+        erro = true;
+        mensagemDiv.innerHTML = `
+          <div class="mensagem-erro">
+            A categoria <strong>${nome}</strong> precisa ter pelo menos 5 pares.
+          </div>`;
+        btn.classList.add("btn-erro");
       }
 
-    });
-
-    await fetch("https://script.google.com/macros/s/AKfycbyO6X6cRK_ovLgtFuqN3hBFvfkBCgBu-1eR6O96KWI6hlJsf8PNi66FZi63NlA9ZEk2/exec", {
-      method: "POST",
-      body: JSON.stringify({
-        entidade: document.querySelectorAll("input")[0].value,
-        municipio: document.querySelectorAll("input")[1].value,
-        rt: document.querySelectorAll("input")[2].value,
-        email: document.querySelectorAll("input")[3].value,
-        patrao: document.querySelectorAll("input")[4].value,
-        whats: document.querySelectorAll("input")[5].value,
-        responsavel: document.querySelectorAll("input")[6].value,
-        categorias: categoriasEnvio,
-        arquivo: {
-          nome: file.name,
-          tipo: file.type,
-          base64: base64
+      inputs.forEach(campo => {
+        if (!campo.checkValidity()) {
+          erro = true;
+          btn.classList.add("btn-erro");
         }
-      })
-    });
+      });
 
-    alert("Inscrição enviada com sucesso!");
+      if (erro) return;
 
-    location.reload();
+      // 🔹 Coletar dados da categoria
+      const tabelaInputs = content.querySelectorAll("table input, table select");
+
+      const danca1 = tabelaInputs[0].value;
+      const danca2 = tabelaInputs[1].value;
+      const danca3 = tabelaInputs[2].value;
+      const musical = tabelaInputs[3].value;
+      const arquivo = tabelaInputs[4].files[0];
+
+      let integrantes = [];
+
+      Array.from(tbody.rows).forEach(row => {
+        integrantes.push({
+          nome: row.cells[0].querySelector("input").value,
+          nascimento: row.cells[1].querySelector("input").value,
+          cartao: row.cells[2].querySelector("input").value
+        });
+      });
+
+      categoriasEnviar.push({
+        nome,
+        danca1,
+        danca2,
+        danca3,
+        musical,
+        integrantes,
+        arquivo
+      });
+    }
+  }
+
+  if (!categoriaAberta) {
+    mensagemDiv.innerHTML = `
+      <div class="mensagem-erro">
+        Você deve abrir e preencher pelo menos uma categoria.
+      </div>`;
+    return;
+  }
+
+  if (erro) return;
+
+  // 🔹 Converter arquivo para base64
+  const arquivoBase64 = await new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.readAsDataURL(categoriasEnviar[0].arquivo);
+  });
+
+  const dados = {
+    entidade: document.getElementById("entidade").value,
+    municipio: document.getElementById("municipio").value,
+    rt: document.getElementById("rt").value,
+    email: document.getElementById("email").value,
+    patrao: document.getElementById("patrao").value,
+    whats: document.getElementById("whats").value,
+    responsavel: document.getElementById("responsavel").value,
+    categorias: categoriasEnviar.map(cat => ({
+      nome: cat.nome,
+      danca1: cat.danca1,
+      danca2: cat.danca2,
+      danca3: cat.danca3,
+      musical: cat.musical,
+      integrantes: cat.integrantes
+    })),
+    arquivo: {
+      nome: categoriasEnviar[0].arquivo.name,
+      tipo: categoriasEnviar[0].arquivo.type,
+      base64: arquivoBase64
+    }
   };
 
-  reader.readAsDataURL(file);
+  document.getElementById("btnEnviar").disabled = true;
+  document.getElementById("btnEnviar").innerText = "Enviando...";
+
+  try {
+
+    const response = await fetch(URL_SCRIPT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados)
+    });
+
+    const result = await response.text();
+
+    if (result === "OK") {
+      document.getElementById("modalSucesso").style.display = "flex";
+    } else {
+      alert("Erro ao enviar inscrição.");
+    }
+
+  } catch (error) {
+    alert("Erro de conexão com o servidor.");
+  }
+
+  document.getElementById("btnEnviar").disabled = false;
+  document.getElementById("btnEnviar").innerText = "Enviar Inscrição";
 }
+
 </script>
 
+</form>
+<div id="modalSucesso" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+align-items:center;
+justify-content:center;
+z-index:9999;
+">
+  <div style="
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    width:300px;
+  ">
+    <h3 style="color:green;">✔ Inscrição enviada com sucesso!</h3>
+    <button onclick="confirmarLimpeza()" 
+      style="
+        margin-top:20px;
+        padding:10px 20px;
+        background:#ff7a00;
+        border:none;
+        color:white;
+        border-radius:8px;
+        cursor:pointer;
+      ">
+      OK
+    </button>
+  </div>
+</div>
+</form>
 </body>
 </html>
