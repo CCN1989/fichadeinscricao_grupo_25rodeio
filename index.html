@@ -215,6 +215,12 @@ footer {
 <tr>
 <td>Responsável Inscrição *</td>
 <td colspan="3"><input id="responsavel" required></td>
+
+</tr>
+<tr>
+<td>Chave "PIX" (ressarcimento caução) *</td>
+<td colspan="3"><input id="pix" required></td>
+
 </tr>
 </table>
 </div>
@@ -368,7 +374,6 @@ function atualizarAltura(nome) {
 }
 
 async function enviar() {
-
   const form = document.getElementById("formInscricao");
   const mensagemDiv = document.getElementById("mensagemErro");
   mensagemDiv.innerHTML = "";
@@ -378,89 +383,63 @@ async function enviar() {
     return;
   }
 
-  let categoriaAberta = false;
-  let erro = false;
   let categoriasEnviar = [];
+  let erro = false;
 
+  // Percorre as categorias para coletar os dados
   for (let nome of categorias) {
-
     const content = document.getElementById(`conteudo-${nome}`);
-    const btn = document.getElementById(`btn-${nome}`);
-
     if (content && content.style.maxHeight) {
-
-      categoriaAberta = true;
-
       const inputs = content.querySelectorAll("input, select");
       const tbody = document.getElementById(`${nome}-body`);
-
+      
       if (tbody.rows.length === 0) {
-        erro = true;
-        mensagemDiv.innerHTML = `
-          <div class="mensagem-erro">
-            A categoria <strong>${nome}</strong> precisa ter pelo menos 5 pares.
-          </div>`;
-        btn.classList.add("btn-erro");
+        alert(`Adicione integrantes na categoria ${nome}`);
+        return;
       }
 
-      inputs.forEach(campo => {
-        if (!campo.checkValidity()) {
-          erro = true;
-          btn.classList.add("btn-erro");
-        }
-      });
-
-      if (erro) return;
-
-      // 🔹 Coletar dados da categoria
-      const tabelaInputs = content.querySelectorAll("table input, table select");
-
-      const danca1 = tabelaInputs[0].value;
-      const danca2 = tabelaInputs[1].value;
-      const danca3 = tabelaInputs[2].value;
-      const musical = tabelaInputs[3].value;
-      const arquivo = tabelaInputs[4].files[0];
-
-      let integrantes = [];
-
-      Array.from(tbody.rows).forEach(row => {
-        integrantes.push({
+      const arquivoInput = content.querySelector('input[type="file"]');
+      
+      categoriasEnviar.push({
+        nome: nome,
+        danca1: inputs[0].value,
+        danca2: inputs[1].value,
+        danca3: inputs[2].value,
+        musical: inputs[3].value,
+        arquivo: arquivoInput.files[0], // Pegamos o arquivo aqui
+        integrantes: Array.from(tbody.rows).map(row => ({
           nome: row.cells[0].querySelector("input").value,
           nascimento: row.cells[1].querySelector("input").value,
           cartao: row.cells[2].querySelector("input").value
-        });
-      });
-
-      categoriasEnviar.push({
-        nome,
-        danca1,
-        danca2,
-        danca3,
-        musical,
-        integrantes,
-        arquivo
+        }))
       });
     }
   }
 
-  if (!categoriaAberta) {
-    mensagemDiv.innerHTML = `
-      <div class="mensagem-erro">
-        Você deve abrir e preencher pelo menos uma categoria.
-      </div>`;
+  if (categoriasEnviar.length === 0) {
+    alert("Selecione pelo menos uma categoria.");
     return;
   }
 
-  if (erro) return;
+  // 🔹 Converter o arquivo da PRIMEIRA categoria aberta para Base64
+  // (Como o link é um só para a inscrição toda, usamos o primeiro arquivo anexado)
+  let arquivoObj = null;
+  const primeiroArquivo = categoriasEnviar.find(c => c.arquivo)?.arquivo;
 
-  // 🔹 Converter arquivo para base64
-  const arquivoBase64 = await new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(",")[1]);
-    reader.readAsDataURL(categoriasEnviar[0].arquivo);
-  });
+  if (primeiroArquivo) {
+    const base64 = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(",")[1]);
+      reader.readAsDataURL(primeiroArquivo);
+    });
+    arquivoObj = {
+      nome: primeiroArquivo.name,
+      tipo: primeiroArquivo.type,
+      base64: base64
+    };
+  }
 
-  const dados = {
+  const dadosParaEnviar = {
     entidade: document.getElementById("entidade").value,
     municipio: document.getElementById("municipio").value,
     rt: document.getElementById("rt").value,
@@ -468,50 +447,31 @@ async function enviar() {
     patrao: document.getElementById("patrao").value,
     whats: document.getElementById("whats").value,
     responsavel: document.getElementById("responsavel").value,
-    categorias: categoriasEnviar.map(cat => ({
-      nome: cat.nome,
-      danca1: cat.danca1,
-      danca2: cat.danca2,
-      danca3: cat.danca3,
-      musical: cat.musical,
-      integrantes: cat.integrantes
-    })),
-    arquivo: {
-      nome: categoriasEnviar[0].arquivo.name,
-      tipo: categoriasEnviar[0].arquivo.type,
-      base64: arquivoBase64
-    }
+    pix: document.getElementById("pix").value, // NOVO CAMPO
+    categorias: categoriasEnviar,
+    arquivo: arquivoObj
   };
 
   document.getElementById("btnEnviar").disabled = true;
   document.getElementById("btnEnviar").innerText = "Enviando...";
 
- try {
+  try {
+    const response = await fetch(URL_SCRIPT, {
+      method: "POST",
+      mode: "no-cors", // Necessário para scripts do Google
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dadosParaEnviar)
+    });
 
- const response = await fetch(URL_SCRIPT, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  body: "dados=" + encodeURIComponent(JSON.stringify(dados))
-});
-
-  const texto = await response.text();
-  console.log("Resposta do servidor:", texto);
-
-  if (texto !== "OK") {
-    throw new Error("Resposta inesperada do servidor");
+    alert("Inscrição enviada com sucesso!");
+    location.reload(); 
+  } catch (e) {
+    alert("Erro ao enviar inscrição. Tente novamente.");
+    console.error(e);
+  } finally {
+    document.getElementById("btnEnviar").disabled = false;
+    document.getElementById("btnEnviar").innerText = "Enviar Inscrição";
   }
-
-  alert("Inscrição enviada com sucesso!");
-
-} catch (erro) {
-  console.error("Erro real:", erro);
-  alert("Erro de conexão com o servidor.");
-}
-
-  document.getElementById("btnEnviar").disabled = false;
-  document.getElementById("btnEnviar").innerText = "Enviar Inscrição";
 }
 
 </script>
@@ -554,4 +514,3 @@ z-index:9999;
 </form>
 </body>
 </html>
-
