@@ -249,7 +249,7 @@ Sistema de inscrição - CTG Chama Nativa © 2026
 </footer>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyvhsf2QGQ4Ts7aaOR--m7Q7AZ0CJM7dNlfxF1ioBl4Mns9Wd9WS2kLBkSVZ1JMurz_/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwD-_LMSEomcI6RNwl6BaaYe1eVmzsCLsP4A1W-Yn6l-fsway7Wb0ORyuEhe28t9qiF/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE = 25;
 
@@ -374,39 +374,38 @@ function atualizarAltura(nome) {
 }
 
 async function enviar() {
+  const btn = document.getElementById("btnEnviar");
   const form = document.getElementById("formInscricao");
-  const mensagemDiv = document.getElementById("mensagemErro");
-  mensagemDiv.innerHTML = "";
-
+  
   if (!form.checkValidity()) {
     form.reportValidity();
     return;
   }
 
   let categoriasEnviar = [];
-  let erro = false;
+  let primeiroArquivo = null;
 
-  // Percorre as categorias para coletar os dados
+  // Coleta dados das categorias abertas
   for (let nome of categorias) {
     const content = document.getElementById(`conteudo-${nome}`);
     if (content && content.style.maxHeight) {
       const inputs = content.querySelectorAll("input, select");
       const tbody = document.getElementById(`${nome}-body`);
-      
+      const fileInput = content.querySelector('input[type="file"]');
+
       if (tbody.rows.length === 0) {
-        alert(`Adicione integrantes na categoria ${nome}`);
+        alert(`Adicione integrantes em: ${nome}`);
         return;
       }
-
-      const arquivoInput = content.querySelector('input[type="file"]');
       
+      if (fileInput.files.length > 0) primeiroArquivo = fileInput.files[0];
+
       categoriasEnviar.push({
         nome: nome,
         danca1: inputs[0].value,
         danca2: inputs[1].value,
         danca3: inputs[2].value,
         musical: inputs[3].value,
-        arquivo: arquivoInput.files[0], // Pegamos o arquivo aqui
         integrantes: Array.from(tbody.rows).map(row => ({
           nome: row.cells[0].querySelector("input").value,
           nascimento: row.cells[1].querySelector("input").value,
@@ -417,29 +416,29 @@ async function enviar() {
   }
 
   if (categoriasEnviar.length === 0) {
-    alert("Selecione pelo menos uma categoria.");
+    alert("Preencha ao menos uma categoria.");
     return;
   }
 
-  // 🔹 Converter o arquivo da PRIMEIRA categoria aberta para Base64
-  // (Como o link é um só para a inscrição toda, usamos o primeiro arquivo anexado)
-  let arquivoObj = null;
-  const primeiroArquivo = categoriasEnviar.find(c => c.arquivo)?.arquivo;
+  btn.disabled = true;
+  btn.innerText = "Processando Arquivo...";
 
+  // Conversão de arquivo para Base64
+  let arquivoObj = null;
   if (primeiroArquivo) {
-    const base64 = await new Promise((resolve) => {
-      const reader = new FileReader();
+    const reader = new FileReader();
+    const base64Promise = new Promise(resolve => {
       reader.onload = () => resolve(reader.result.split(",")[1]);
       reader.readAsDataURL(primeiroArquivo);
     });
     arquivoObj = {
       nome: primeiroArquivo.name,
       tipo: primeiroArquivo.type,
-      base64: base64
+      base64: await base64Promise
     };
   }
 
-  const dadosParaEnviar = {
+  const payload = {
     entidade: document.getElementById("entidade").value,
     municipio: document.getElementById("municipio").value,
     rt: document.getElementById("rt").value,
@@ -447,30 +446,41 @@ async function enviar() {
     patrao: document.getElementById("patrao").value,
     whats: document.getElementById("whats").value,
     responsavel: document.getElementById("responsavel").value,
-    pix: document.getElementById("pix").value, // NOVO CAMPO
+    pix: document.getElementById("pix").value,
     categorias: categoriasEnviar,
     arquivo: arquivoObj
   };
 
-  document.getElementById("btnEnviar").disabled = true;
-  document.getElementById("btnEnviar").innerText = "Enviando...";
+  btn.innerText = "Enviando para Planilha...";
 
   try {
+    // 🔹 O SEGREDO: Usar URLSearchParams para evitar problemas de CORS e Preflight
+    const params = new URLSearchParams();
+    params.append("dados", JSON.stringify(payload));
+
     const response = await fetch(URL_SCRIPT, {
       method: "POST",
-      mode: "no-cors", // Necessário para scripts do Google
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dadosParaEnviar)
+      body: params,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
     });
 
-    alert("Inscrição enviada com sucesso!");
-    location.reload(); 
+    const texto = await response.text();
+    
+    if (texto.includes("OK")) {
+      alert("Inscrição confirmada com sucesso!");
+      location.reload();
+    } else {
+      throw new Error(texto);
+    }
+
   } catch (e) {
-    alert("Erro ao enviar inscrição. Tente novamente.");
     console.error(e);
+    alert("Erro no servidor: " + e.message);
   } finally {
-    document.getElementById("btnEnviar").disabled = false;
-    document.getElementById("btnEnviar").innerText = "Enviar Inscrição";
+    btn.disabled = false;
+    btn.innerText = "Enviar Inscrição";
   }
 }
 
@@ -514,4 +524,5 @@ z-index:9999;
 </form>
 </body>
 </html>
+
 
