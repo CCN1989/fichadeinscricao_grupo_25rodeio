@@ -244,7 +244,7 @@ Sistema de inscrição - CTG Chama Nativa © 2026
 </footer>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbx_9Gp2AqAi6X_Wtcir0rxmwt8tupFIdtrngiVMkZZghJnV-6iLinQ4_n3ZI_kSGwjU/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzFNGAYM5mZrMlV3sSNAOsZ-e8tjjB3U7L473MZMUCtfuggjvoGvioW4HLXUOVDZCbZ/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE = 25;
 
@@ -370,12 +370,12 @@ function atualizarAltura(nome) {
 
 async function enviar() {
 
-  const form = document.getElementById("formInscricao");
+  const formPrincipal = document.getElementById("formInscricao");
   const mensagemDiv = document.getElementById("mensagemErro");
   mensagemDiv.innerHTML = "";
 
-  if (!form.checkValidity()) {
-    form.reportValidity();
+  if (!formPrincipal.checkValidity()) {
+    formPrincipal.reportValidity();
     return;
   }
 
@@ -399,21 +399,21 @@ async function enviar() {
         erro = true;
         mensagemDiv.innerHTML = `
           <div class="mensagem-erro">
-            A categoria <strong>${nome}</strong> precisa ter pelo menos 5 pares.
+            A categoria <strong>${nome}</strong> precisa ter pelo menos 1 integrante.
           </div>`;
         btn.classList.add("btn-erro");
+        return;
       }
 
-      inputs.forEach(campo => {
+      for (let campo of inputs) {
         if (!campo.checkValidity()) {
           erro = true;
           btn.classList.add("btn-erro");
+          formPrincipal.reportValidity();
+          return;
         }
-      });
+      }
 
-      if (erro) return;
-
-      // 🔹 Coletar dados da categoria
       const tabelaInputs = content.querySelectorAll("table input, table select");
 
       const danca1 = tabelaInputs[0].value;
@@ -455,65 +455,73 @@ async function enviar() {
   if (erro) return;
 
   // 🔹 Converter arquivo para base64
-  const arquivoBase64 = await new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(",")[1]);
-    reader.readAsDataURL(categoriasEnviar[0].arquivo);
-  });
+  const reader = new FileReader();
 
-  const dados = {
-    entidade: document.getElementById("entidade").value,
-    municipio: document.getElementById("municipio").value,
-    rt: document.getElementById("rt").value,
-    email: document.getElementById("email").value,
-    patrao: document.getElementById("patrao").value,
-    whats: document.getElementById("whats").value,
-    responsavel: document.getElementById("responsavel").value,
-    categorias: categoriasEnviar.map(cat => ({
-      nome: cat.nome,
-      danca1: cat.danca1,
-      danca2: cat.danca2,
-      danca3: cat.danca3,
-      musical: cat.musical,
-      integrantes: cat.integrantes
-    })),
-    arquivo: {
-      nome: categoriasEnviar[0].arquivo.name,
-      tipo: categoriasEnviar[0].arquivo.type,
-      base64: arquivoBase64
-    }
+  reader.onload = function() {
+
+    const arquivoBase64 = reader.result.split(",")[1];
+
+    const dados = {
+      entidade: document.getElementById("entidade").value,
+      municipio: document.getElementById("municipio").value,
+      rt: document.getElementById("rt").value,
+      email: document.getElementById("email").value,
+      patrao: document.getElementById("patrao").value,
+      whats: document.getElementById("whats").value,
+      responsavel: document.getElementById("responsavel").value,
+      categorias: categoriasEnviar.map(cat => ({
+        nome: cat.nome,
+        danca1: cat.danca1,
+        danca2: cat.danca2,
+        danca3: cat.danca3,
+        musical: cat.musical,
+        integrantes: cat.integrantes
+      })),
+      arquivo: {
+        nome: categoriasEnviar[0].arquivo.name,
+        tipo: categoriasEnviar[0].arquivo.type,
+        base64: arquivoBase64
+      }
+    };
+
+    document.getElementById("btnEnviar").disabled = true;
+    document.getElementById("btnEnviar").innerText = "Enviando...";
+
+    // ✅ ENVIO CORRETO PARA APPS SCRIPT (SEM CORS)
+    const formEnvio = document.createElement("form");
+    formEnvio.method = "POST";
+    formEnvio.action = URL_SCRIPT;
+    formEnvio.target = "hidden_iframe";
+
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "dados";
+    input.value = JSON.stringify(dados);
+
+    formEnvio.appendChild(input);
+    document.body.appendChild(formEnvio);
+
+    formEnvio.submit();
+
+    // ⏳ Aguarda resposta
+    setTimeout(() => {
+
+      document.getElementById("btnEnviar").disabled = false;
+      document.getElementById("btnEnviar").innerText = "Enviar Inscrição";
+
+      // 🔥 Mostra modal
+      document.getElementById("modalSucesso").style.display = "flex";
+
+      // 🔥 Limpa formulário
+      formPrincipal.reset();
+      document.getElementById("categorias").innerHTML = "";
+      location.reload();
+
+    }, 2000);
+
   };
 
-  document.getElementById("btnEnviar").disabled = true;
-  document.getElementById("btnEnviar").innerText = "Enviando...";
-
-try {
-
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = URL_SCRIPT;
-  form.target = "hidden_iframe";
-
-  const input = document.createElement("input");
-  input.type = "hidden";
-  input.name = "dados";
-  input.value = JSON.stringify(dados);
-
-  form.appendChild(input);
-  document.body.appendChild(form);
-  form.submit();
-
-  alert("Inscrição enviada com sucesso!");
-
-} catch (erro) {
-
-  alert("Erro ao enviar inscrição.");
-
-}
-  
-
-  document.getElementById("btnEnviar").disabled = false;
-  document.getElementById("btnEnviar").innerText = "Enviar Inscrição";
+  reader.readAsDataURL(categoriasEnviar[0].arquivo);
 }
 
 </script>
@@ -556,6 +564,7 @@ z-index:9999;
 </form>
 </body>
 </html>
+
 
 
 
