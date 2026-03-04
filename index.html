@@ -1,3 +1,4 @@
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -243,7 +244,7 @@ Sistema de inscrição - CTG Chama Nativa © 2026
 </footer>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzOQ_ETvf0VROaENbGA4w7iQzKnIgPALwQ-MgPOb-OcnNxtRzegKxWkpKw7QaAq5-cg/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxTM_4Cdkrgp4KQQ25M3yVvtPAHZm35tDU-cHEV8yr1JKTn88-R2aO8SQH5tbBB-Ju3/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE = 25;
 
@@ -491,7 +492,7 @@ try {
   const form = document.createElement("form");
   form.method = "POST";
   form.action = URL_SCRIPT;
-  form.target = "_blank";
+  form.target = "hidden_iframe";
 
   const input = document.createElement("input");
   input.type = "hidden";
@@ -555,6 +556,7 @@ z-index:9999;
 </form>
 </body>
 </html>
+
 
 
 
