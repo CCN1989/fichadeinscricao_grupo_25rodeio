@@ -243,7 +243,7 @@ Sistema de inscrição - CTG Chama Nativa © 2026
 </footer>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxZdrhT2Dj2A9ZY18gLxG9LjQuwT2_3nL8KVgmKS_0rqoVgMbw95oBqGUbkhKWeyaOF/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzOQ_ETvf0VROaENbGA4w7iQzKnIgPALwQ-MgPOb-OcnNxtRzegKxWkpKw7QaAq5-cg/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE = 25;
 
@@ -488,22 +488,26 @@ async function enviar() {
 
 try {
 
-  const urlFinal = URL_SCRIPT + "?dados=" + encodeURIComponent(JSON.stringify(dados));
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = URL_SCRIPT;
+  form.target = "_blank";
 
-  const response = await fetch(urlFinal);
-  const texto = await response.text();
+  const input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "dados";
+  input.value = JSON.stringify(dados);
 
-  console.log("Resposta do servidor:", texto);
-
-  if (texto !== "OK") {
-    throw new Error(texto);
-  }
+  form.appendChild(input);
+  document.body.appendChild(form);
+  form.submit();
 
   alert("Inscrição enviada com sucesso!");
 
 } catch (erro) {
-  console.error("Erro real:", erro);
-  alert("Erro: " + erro.message);
+
+  alert("Erro ao enviar inscrição.");
+
 }
   
 
@@ -551,6 +555,7 @@ z-index:9999;
 </form>
 </body>
 </html>
+
 
 
 
