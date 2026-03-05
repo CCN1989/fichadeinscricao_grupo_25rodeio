@@ -58,11 +58,40 @@ footer { text-align: center; margin: 40px 0 20px; font-size: 12px; color: gray; 
         <tr>
           <td>RT *</td>
           <td>
-            <select id="rt" required>
-              <option value="">Selecione a RT</option>
-              ${Array.from({length: 30}, (_, i) => `<option>${i + 1}ª RT</option>`).join('')}
-            </select>
-          </td>
+  <select id="rt" required>
+    <option value="">Selecione a RT</option>
+    <option>1ª RT</option>
+    <option>2ª RT</option>
+    <option>3ª RT</option>
+    <option>4ª RT</option>
+    <option>5ª RT</option>
+    <option>6ª RT</option>
+    <option>7ª RT</option>
+    <option>8ª RT</option>
+    <option>9ª RT</option>
+    <option>10ª RT</option>
+    <option>11ª RT</option>
+    <option>12ª RT</option>
+    <option>13ª RT</option>
+    <option>14ª RT</option>
+    <option>15ª RT</option>
+    <option>16ª RT</option>
+    <option>17ª RT</option>
+    <option>18ª RT</option>
+    <option>19ª RT</option>
+    <option>20ª RT</option>
+    <option>21ª RT</option>
+    <option>22ª RT</option>
+    <option>23ª RT</option>
+    <option>24ª RT</option>
+    <option>25ª RT</option>
+    <option>26ª RT</option>
+    <option>27ª RT</option>
+    <option>28ª RT</option>
+    <option>29ª RT</option>
+    <option>30ª RT</option>
+  </select>
+</td>
           <td>Email *</td><td><input type="email" id="email" required></td>
         </tr>
         <tr>
@@ -101,7 +130,7 @@ footer { text-align: center; margin: 40px 0 20px; font-size: 12px; color: gray; 
 </div>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyX1EG9jy7RIiMNS6RgN4fQ9A91b-b9PEi6L7C2j3g2s0GeDRGQNzf_V8Gt3vAapjqA/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxEH6i_dylH0uXK_0mHhfCAUWITZSvbccTH9LZOFLS-NFpcoYWJSKmpePpKdUn_sGNp/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
 
@@ -124,8 +153,9 @@ function toggleCategoria(nome) {
 
   if (content.style.maxHeight && content.style.maxHeight !== "0px") {
     content.style.maxHeight = "0px";
-    setTimeout(() => content.innerHTML = "", 300);
     btn.innerHTML = `+ ${nome}`;
+    // Limpamos o HTML após a animação para não enviar dados de abas fechadas
+    setTimeout(() => { content.innerHTML = ""; }, 300);
   } else {
     abrirCategoria(nome);
     btn.innerHTML = `− Fechar ${nome}`;
@@ -153,7 +183,7 @@ function abrirCategoria(nome) {
           </td>
         </tr>
         <tr>
-          <td>Comprovante PIX (Anexo) *</td>
+          <td>Comprovante PIX (Anexo único) *</td>
           <td colspan="3"><input type="file" accept="image/*,.pdf" required></td>
         </tr>
       </table>
@@ -200,12 +230,13 @@ function removeRow(btn, cat) {
 }
 
 function atualizarContador(cat) {
-  document.getElementById(`contador-${cat}`).innerText = document.getElementById(`${cat}-body`).rows.length;
+  const tbody = document.getElementById(`${cat}-body`);
+  if(tbody) document.getElementById(`contador-${cat}`).innerText = tbody.rows.length;
 }
 
 function atualizarAltura(nome) {
   const content = document.getElementById(`conteudo-${nome}`);
-  content.style.maxHeight = "2000px"; // Valor alto para permitir expansão
+  content.style.maxHeight = content.scrollHeight + "px";
 }
 
 async function enviar() {
@@ -220,26 +251,24 @@ async function enviar() {
   let categoriasEnviar = [];
   let arquivoParaBase64 = null;
 
+  // Coleta dados APENAS das categorias que estão abertas e populadas
   for (let nome of categorias) {
+    const tbody = document.getElementById(`${nome}-body`);
     const content = document.getElementById(`conteudo-${nome}`);
-    if (content && content.style.maxHeight !== "0px") {
-      const inputs = content.querySelectorAll("input, select");
-      const tbody = document.getElementById(`${nome}-body`);
+    
+    // Se a categoria está aberta e tem integrantes
+    if (tbody && tbody.rows.length > 0) {
+      const inputsTopo = content.querySelectorAll("table:first-of-type input, table:first-of-type select");
       const fileInput = content.querySelector('input[type="file"]');
-
-      if (tbody.rows.length === 0) {
-        alert(`Adicione ao menos um integrante na categoria ${nome}`);
-        return;
-      }
       
       if (fileInput.files.length > 0) arquivoParaBase64 = fileInput.files[0];
 
       categoriasEnviar.push({
         nome: nome,
-        danca1: inputs[0].value,
-        danca2: inputs[1].value,
-        danca3: inputs[2].value,
-        musical: inputs[3].value,
+        danca1: inputsTopo[0].value,
+        danca2: inputsTopo[1].value,
+        danca3: inputsTopo[2].value,
+        musical: inputsTopo[3].value,
         integrantes: Array.from(tbody.rows).map(row => ({
           nome: row.cells[0].querySelector("input").value,
           nascimento: row.cells[1].querySelector("input").value,
@@ -250,65 +279,68 @@ async function enviar() {
   }
 
   if (categoriasEnviar.length === 0) {
-    alert("Selecione e preencha ao menos uma categoria.");
+    alert("Por favor, abra uma categoria e adicione ao menos um integrante.");
     return;
   }
 
   btn.disabled = true;
   btn.innerText = "Processando Arquivo...";
 
-  let arquivoObj = null;
-  if (arquivoParaBase64) {
-    const reader = new FileReader();
-    const base64Promise = new Promise(resolve => {
-      reader.onload = () => resolve(reader.result.split(",")[1]);
-      reader.readAsDataURL(arquivoParaBase64);
-    });
-    arquivoObj = {
-      nome: arquivoParaBase64.name,
-      tipo: arquivoParaBase64.type,
-      base64: await base64Promise
-    };
-  }
-
-  const payload = {
-    entidade: document.getElementById("entidade").value,
-    municipio: document.getElementById("municipio").value,
-    rt: document.getElementById("rt").value,
-    email: document.getElementById("email").value,
-    patrao: document.getElementById("patrao").value,
-    whats: document.getElementById("whats").value,
-    responsavel: document.getElementById("responsavel").value,
-    pix: document.getElementById("pix").value,
-    categorias: categoriasEnviar,
-    arquivo: arquivoObj
-  };
-
-  btn.innerText = "Enviando Inscrição...";
-
   try {
+    let arquivoObj = null;
+    if (arquivoParaBase64) {
+      const reader = new FileReader();
+      const base64Promise = new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(arquivoParaBase64);
+      });
+      arquivoObj = {
+        nome: arquivoParaBase64.name,
+        tipo: arquivoParaBase64.type,
+        base64: await base64Promise
+      };
+    }
+
+    const payload = {
+      entidade: document.getElementById("entidade").value,
+      municipio: document.getElementById("municipio").value,
+      rt: document.getElementById("rt").value,
+      email: document.getElementById("email").value,
+      patrao: document.getElementById("patrao").value,
+      whats: document.getElementById("whats").value,
+      responsavel: document.getElementById("responsavel").value,
+      pix: document.getElementById("pix").value,
+      categorias: categoriasEnviar,
+      arquivo: arquivoObj
+    };
+
+    btn.innerText = "Enviando para o Drive...";
+
     const params = new URLSearchParams();
     params.append("dados", JSON.stringify(payload));
 
-    // Usamos fetch normal, mas tratamos o erro de CORS silenciosamente se os dados chegarem
-    const response = await fetch(URL_SCRIPT, {
+    // Envio com no-cors para evitar bloqueios de segurança do navegador
+    await fetch(URL_SCRIPT, {
       method: "POST",
       body: params,
       mode: "no-cors",
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     });
 
-    // Como o no-cors não permite ler o corpo, assumimos sucesso se não houver erro de rede
+    // Como no-cors não permite ler a resposta, exibimos o sucesso após o término da requisição
     document.getElementById("modalSucesso").style.display = "flex";
 
   } catch (e) {
     console.error(e);
-    alert("Erro ao enviar. Verifique sua conexão.");
+    alert("Erro crítico: " + e.message);
   } finally {
     btn.disabled = false;
     btn.innerText = "Enviar Inscrição";
   }
 }
 </script>
+
 </body>
 </html>
+
