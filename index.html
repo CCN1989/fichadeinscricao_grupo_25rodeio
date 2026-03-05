@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha de Inscrição - CTG Chama Nativa</title>
+    <title>Inscrição - CTG Chama Nativa</title>
     <style>
-        /* Mantendo seu CSS original */
         body { font-family: Arial, sans-serif; background: #fff7f0; margin: 0; padding: 0; }
-        header { width: 100%; margin: 0; padding: 0; }
         .testeira { width: 100%; display: block; }
         main { max-width: 1100px; margin: 30px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0px 0px 12px rgba(0,0,0,0.2); }
         .section-title { background: #ff7a00; color: white; padding: 12px; border-radius: 10px; margin-top: 40px; font-size: 18px; font-weight: bold; }
@@ -21,46 +19,31 @@
         .botoes-final { display: flex; gap: 15px; margin-top: 50px; }
         .btn-submit { width: 50%; padding: 14px; background: #ff7a00; color: white; border: none; font-size: 18px; border-radius: 12px; cursor: pointer; }
         .btn-voltar { background: #cc5f00; text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; width: 50%; border-radius: 12px; }
-        .accordion-btn { width: 100%; background: #fff; border: 1px solid #ff7a00; color: #ff7a00; padding: 10px; text-align: left; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 8px; }
+        .accordion-btn { width: 100%; background: #fff; border: 1px solid #ff7a00; color: #ff7a00; padding: 12px; text-align: left; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 8px; }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         .contador { margin: 10px 0; font-weight: bold; color: #cc5f00; }
     </style>
 </head>
 <body>
 
-<header>
-    <img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png">
-</header>
+<header><img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png"></header>
 
 <main>
     <form id="formInscricao">
         <div class="section-title">Dados da Entidade</div>
         <div class="category-box">
             <table>
-                <tr>
-                    <td>Entidade *</td><td><input id="entidade" required></td>
-                    <td>Município *</td><td><input id="municipio" required></td>
-                </tr>
+                <tr><td>Entidade *</td><td><input id="entidade" required></td><td>Município *</td><td><input id="municipio" required></td></tr>
                 <tr>
                     <td>RT *</td>
-                    <td>
-                        <select id="rt" required>
-                            <option value="">Selecione</option>
-                            <option>1ª RT</option><option>12ª RT</option><option>13ª RT</option>
-                        </select>
-                    </td>
+                    <td><select id="rt" required><option value="">Selecione</option>
+                        <script>for(let i=1;i<=30;i++) document.write(`<option>${i}ª RT</option>`)</script>
+                    </select></td>
                     <td>Email *</td><td><input type="email" id="email" required></td>
                 </tr>
-                <tr>
-                    <td>Patrão</td><td><input id="patrao"></td>
-                    <td>WhatsApp *</td><td><input id="whats" required></td>
-                </tr>
-                <tr>
-                    <td>Responsável *</td><td colspan="3"><input id="responsavel" required></td>
-                </tr>
-                <tr>
-                    <td>Chave PIX *</td><td colspan="3"><input id="pix" required></td>
-                </tr>
+                <tr><td>Patrão</td><td><input id="patrao"></td><td>WhatsApp *</td><td><input id="whats" required></td></tr>
+                <tr><td>Responsável *</td><td colspan="3"><input id="responsavel" required></td></tr>
+                <tr><td>Chave PIX *</td><td colspan="3"><input id="pix" required></td></tr>
             </table>
         </div>
 
@@ -75,62 +58,37 @@
 </main>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyy7fi3TRTtQ_BLiVqM_AEagdqNfvkQcnpT5zplyYBIKuz02le9Tsk0hKtRwqzYqZch/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbw4JGkHdfaRPHGha3fWS39udzCIi5nmp1tcIROS9Dh28aUEes2Ej4Sb8rxNANEuqZ84/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INST = 25;
 
-// Inicializa os Accordions
 const container = document.getElementById("categorias");
 categorias.forEach(nome => {
     const wrapper = document.createElement("div");
     wrapper.className = "category-box";
-    wrapper.innerHTML = `
-        <button type="button" class="accordion-btn" id="btn-${nome}" onclick="toggleCategoria('${nome}')">+ ${nome}</button>
-        <div id="conteudo-${nome}" class="accordion-content"></div>
-    `;
+    wrapper.innerHTML = `<button type="button" class="accordion-btn" id="btn-${nome}" onclick="toggleCategoria('${nome}')">+ ${nome}</button><div id="conteudo-${nome}" class="accordion-content"></div>`;
     container.appendChild(wrapper);
 });
 
 function toggleCategoria(nome) {
     const content = document.getElementById(`conteudo-${nome}`);
     const btn = document.getElementById(`btn-${nome}`);
-    if (content.style.maxHeight) {
-        content.style.maxHeight = null;
-        content.innerHTML = "";
-        btn.innerHTML = `+ ${nome}`;
-    } else {
-        abrirCategoria(nome);
-        content.style.maxHeight = content.scrollHeight + "px";
-        btn.innerHTML = `− Fechar ${nome}`;
-    }
+    if (content.style.maxHeight) { content.style.maxHeight = null; content.innerHTML = ""; btn.innerHTML = `+ ${nome}`; } 
+    else { abrirCategoria(nome); content.style.maxHeight = content.scrollHeight + "px"; btn.innerHTML = `− Fechar ${nome}`; }
 }
 
 function abrirCategoria(nome) {
     const div = document.getElementById(`conteudo-${nome}`);
-    div.innerHTML = `
-        <div style="padding:10px">
-            <table>
-                <tr>
-                    <td>Dança 1 *</td><td><input class="d1" required></td>
-                    <td>Dança 2 *</td><td><input class="d2" required></td>
-                </tr>
-                <tr>
-                    <td>Dança 3 *</td><td><input class="d3" required></td>
-                    <td>Musical *</td>
-                    <td><select class="mus" required><option value="">Selecione</option><option>Sim</option><option>Não</option></select></td>
-                </tr>
-                <tr>
-                    <td>Comprovante PIX *</td><td colspan="3"><input type="file" class="arq" required></td>
-                </tr>
-            </table>
-            <div class="contador">Integrantes: <span id="cont-${nome}">0</span> / ${LIMITE_INST}</div>
-            <table id="tab-${nome}">
-                <thead><tr><th>Nome</th><th>Nascimento</th><th>Cartão</th><th>Ação</th></tr></thead>
-                <tbody id="body-${nome}"></tbody>
-            </table>
-            <button type="button" class="btn-add" onclick="addIn('${nome}')">+ Integrante</button>
-        </div>
-    `;
+    div.innerHTML = `<div style="padding:10px">
+        <table>
+            <tr><td>Dança 1 *</td><td><input class="d1" required></td><td>Dança 2 *</td><td><input class="d2" required></td></tr>
+            <tr><td>Dança 3 *</td><td><input class="d3" required></td><td>Musical *</td><td><select class="mus" required><option value="">Selecione</option><option>Sim</option><option>Não</option></select></td></tr>
+            <tr><td>Comprovante PIX *</td><td colspan="3"><input type="file" class="arq" required></td></tr>
+        </table>
+        <div class="contador">Integrantes: <span id="cont-${nome}">0</span> / ${LIMITE_INST}</div>
+        <table id="tab-${nome}"><thead><tr><th>Nome</th><th>Nascimento</th><th>Cartão</th><th>Ação</th></tr></thead><tbody id="body-${nome}"></tbody></table>
+        <button type="button" class="btn-add" onclick="addIn('${nome}')">+ Adicionar Integrante</button>
+    </div>`;
     atualizarAltura(nome);
 }
 
@@ -139,41 +97,29 @@ function addIn(cat) {
     if (tb.rows.length >= LIMITE_INST) return alert("Limite atingido");
     const row = tb.insertRow();
     row.innerHTML = `<td><input required></td><td><input type="date" required></td><td><input required></td><td><button type="button" class="btn-remove" onclick="this.closest('tr').remove(); atualizarContador('${cat}')">X</button></td>`;
-    atualizarContador(cat);
-    atualizarAltura(cat);
+    atualizarContador(cat); atualizarAltura(cat);
 }
 
-function atualizarContador(cat) { 
-    document.getElementById(`cont-${cat}`).innerText = document.getElementById(`body-${cat}`).rows.length; 
-}
-
-function atualizarAltura(nome) {
-    const content = document.getElementById(`conteudo-${nome}`);
-    content.style.maxHeight = content.scrollHeight + "px";
-}
+function atualizarContador(cat) { document.getElementById(`cont-${cat}`).innerText = document.getElementById(`body-${cat}`).rows.length; }
+function atualizarAltura(nome) { const content = document.getElementById(`conteudo-${nome}`); content.style.maxHeight = content.scrollHeight + "px"; }
 
 async function enviar() {
     const btn = document.getElementById("btnEnviar");
     const form = document.getElementById("formInscricao");
     if (!form.checkValidity()) return form.reportValidity();
 
-    let dadosCategorias = [];
+    let dadosCat = [];
     let arquivoFinal = null;
 
     for (let nome of categorias) {
         const cont = document.getElementById(`conteudo-${nome}`);
         const tbody = document.getElementById(`body-${nome}`);
         if (cont && cont.style.maxHeight && tbody && tbody.rows.length > 0) {
-            
             const fileInput = cont.querySelector(".arq");
             if (fileInput.files.length > 0) arquivoFinal = fileInput.files[0];
-
-            dadosCategorias.push({
-                nome: nome,
-                danca1: cont.querySelector(".d1").value,
-                danca2: cont.querySelector(".d2").value,
-                danca3: cont.querySelector(".d3").value,
-                musical: cont.querySelector(".mus").value,
+            dadosCat.push({
+                nome: nome, danca1: cont.querySelector(".d1").value, danca2: cont.querySelector(".d2").value,
+                danca3: cont.querySelector(".d3").value, musical: cont.querySelector(".mus").value,
                 integrantes: Array.from(tbody.rows).map(r => ({
                     nome: r.cells[0].querySelector("input").value,
                     nascimento: r.cells[1].querySelector("input").value,
@@ -183,48 +129,42 @@ async function enviar() {
         }
     }
 
-    if (dadosCategorias.length === 0) return alert("Adicione ao menos uma categoria com integrantes.");
-
-    btn.disabled = true;
-    btn.innerText = "Enviando...";
+    if (dadosCat.length === 0) return alert("Adicione integrantes a uma categoria!");
+    btn.disabled = true; btn.innerText = "Processando arquivo...";
 
     try {
         let arqObj = null;
         if (arquivoFinal) {
             const reader = new FileReader();
-            const promise = new Promise(res => {
-                reader.onload = () => res(reader.result.split(",")[1]);
-                reader.readAsDataURL(arquivoFinal);
-            });
+            const promise = new Promise(res => { reader.onload = () => res(reader.result.split(",")[1]); reader.readAsDataURL(arquivoFinal); });
             arqObj = { nome: arquivoFinal.name, tipo: arquivoFinal.type, base64: await promise };
         }
 
         const payload = {
-            entidade: document.getElementById("entidade").value,
-            municipio: document.getElementById("municipio").value,
-            rt: document.getElementById("rt").value,
-            email: document.getElementById("email").value,
-            patrao: document.getElementById("patrao").value,
-            whats: document.getElementById("whats").value,
-            responsavel: document.getElementById("responsavel").value,
-            pix: document.getElementById("pix").value,
-            categorias: dadosCategorias,
-            arquivo: arqObj
+            entidade: document.getElementById("entidade").value, municipio: document.getElementById("municipio").value,
+            rt: document.getElementById("rt").value, email: document.getElementById("email").value,
+            patrao: document.getElementById("patrao").value, whats: document.getElementById("whats").value,
+            responsavel: document.getElementById("responsavel").value, pix: document.getElementById("pix").value,
+            categorias: dadosCat, arquivo: arqObj
         };
 
-        const params = new URLSearchParams();
-        params.append("dados", JSON.stringify(payload));
+        const formTemp = document.createElement("form");
+        formTemp.method = "POST"; formTemp.action = URL_SCRIPT; formTemp.style.display = "none";
+        const inputDados = document.createElement("input");
+        inputDados.name = "dados"; inputDados.value = JSON.stringify(payload);
+        formTemp.appendChild(inputDados);
+        document.body.appendChild(formTemp);
 
-        await fetch(URL_SCRIPT, { method: "POST", mode: "no-cors", body: params });
+        const iframe = document.createElement("iframe");
+        iframe.name = "invisible_frame"; iframe.style.display = "none";
+        document.body.appendChild(iframe);
+        formTemp.target = "invisible_frame";
+        
+        btn.innerText = "Enviando dados...";
+        formTemp.submit();
 
-        alert("Inscrição enviada com sucesso!");
-        location.reload();
-    } catch (e) {
-        alert("Erro: " + e.message);
-    } finally {
-        btn.disabled = false;
-        btn.innerText = "Enviar Inscrição";
-    }
+        setTimeout(() => { alert("Inscrição enviada com sucesso!"); location.reload(); }, 4000);
+    } catch (e) { alert("Erro: " + e.message); btn.disabled = false; }
 }
 </script>
 </body>
