@@ -130,7 +130,7 @@ footer { text-align: center; margin: 40px 0 20px; font-size: 12px; color: gray; 
 </div>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzZBO_nrh8MnTtOw70HXKcu-jQ9ly3-wkZiJXMv6P09toEJT_5iHDg8zEkGmNZ5mngw/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwTJ2C7ahU7FKOm-dim3_dwzUKeV51XQbuz5VVIMiQNEq0Sfz9k_zYRroHfg4ifLmc6/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
 
@@ -327,11 +327,11 @@ async function enviar() {
     const params = new URLSearchParams();
     params.append("dados", JSON.stringify(payload));
 
+    // No seu HTML, substitua a parte do fetch por isso:
     await fetch(URL_SCRIPT, {
       method: "POST",
-      mode: "no-cors", // Evita erro de CORS do navegador
-      body: params,
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      mode: "no-cors", 
+      body: params // Continua usando params (URLSearchParams)
     });
 
     // Como o no-cors não permite ler a resposta "OK", exibimos o modal após o fetch
@@ -350,5 +350,6 @@ async function enviar() {
 
 </body>
 </html>
+
 
 
