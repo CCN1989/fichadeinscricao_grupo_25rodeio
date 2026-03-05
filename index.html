@@ -1,55 +1,242 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Inscrição - CTG Chama Nativa</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fff7f0; margin: 0; padding: 0; }
+        header { width: 100%; margin: 0; padding: 0; }
+        .testeira { width: 100%; display: block; }
+        main { max-width: 1100px; margin: 30px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0px 0px 12px rgba(0,0,0,0.2); }
+        .section-title { background: #ff7a00; color: white; padding: 12px; border-radius: 10px; margin-top: 40px; font-size: 18px; font-weight: bold; }
+        .category-box { border: 2px solid #ffd2a8; padding: 15px; border-radius: 12px; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px; text-align: center; }
+        th { background: #ffe0c2; }
+        input, select { width: 95%; padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
+        .btn-add { margin-top: 10px; background: #ff7a00; border: none; padding: 7px 14px; color: white; border-radius: 8px; cursor: pointer; }
+        .btn-remove { background: red; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+        .botoes-final { display: flex; gap: 15px; margin-top: 50px; }
+        .btn-submit { width: 50%; padding: 14px; background: #ff7a00; color: white; border: none; font-size: 18px; border-radius: 12px; cursor: pointer; }
+        .btn-voltar { background: #cc5f00; text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; width: 50%; border-radius: 12px; }
+        .accordion-btn { width: 100%; background: #fff; border: 1px solid #ff7a00; color: #ff7a00; padding: 12px; text-align: left; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 8px; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .contador { margin: 10px 0; font-weight: bold; color: #cc5f00; }
+    </style>
+</head>
 <body>
-    <h2>Teste de Conexão CTG Chama Nativa</h2>
-    <button onclick="testar()">Enviar Linha de Teste</button>
-    <p id="status"></p>
 
-    <script>
-        const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbw4JGkHdfaRPHGha3fWS39udzCIi5nmp1tcIROS9Dh28aUEes2Ej4Sb8rxNANEuqZ84/exec";
+<header>
+    <img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png">
+</header>
 
-        async function testar() {
-            const status = document.getElementById("status");
-            status.innerText = "Enviando...";
+<main>
+    <form id="formInscricao">
+        <div class="section-title">Dados da Entidade</div>
+        <div class="category-box">
+            <table>
+                <tr>
+                    <td>Entidade *</td><td><input id="entidade" required></td>
+                    <td>Município *</td><td><input id="municipio" required></td>
+                </tr>
+                <tr>
+                    <td>RT *</td>
+                    <td>
+                        <select id="rt" required>
+                            <option value="">Selecione</option>
+                            <script>for(let i=1; i<=30; i++) document.write(`<option>${i}ª RT</option>`);</script>
+                        </select>
+                    </td>
+                    <td>Email *</td><td><input type="email" id="email" required></td>
+                </tr>
+                <tr>
+                    <td>Patrão</td><td><input id="patrao"></td>
+                    <td>WhatsApp *</td><td><input id="whats" required placeholder="(00) 00000-0000"></td>
+                </tr>
+                <tr>
+                    <td>Responsável *</td><td colspan="3"><input id="responsavel" required></td>
+                </tr>
+                <tr>
+                    <td>Chave PIX *</td><td colspan="3"><input id="pix" required></td>
+                </tr>
+            </table>
+        </div>
 
-            // Criamos um pacote de dados mínimo que seu script .gs entenda
-            const pacoteTeste = {
-                entidade: "ENTIDADE TESTE",
-                municipio: "CIDADE TESTE",
-                rt: "1ª RT",
-                email: "teste@teste.com",
-                patrao: "PATRAO TESTE",
-                whats: "5199999999",
-                responsavel: "RESPONSAVEL TESTE",
-                pix: "CHAVE TESTE",
-                categorias: [{
-                    nome: "Adulta",
-                    danca1: "Danca 1", danca2: "Danca 2", danca3: "Danca 3",
-                    musical: "Não",
-                    integrantes: [{ nome: "INTEGRANTE TESTE", nascimento: "2000-01-01", cartao: "12345" }]
-                }],
-                arquivo: null // Sem arquivo para não pesar o teste
-            };
+        <div class="section-title">Categorias (Abra para preencher)</div>
+        <div id="categoriasCont"></div>
 
-            const params = new URLSearchParams();
-            params.append("dados", JSON.stringify(pacoteTeste));
+        <div class="botoes-final">
+            <button type="button" class="btn-submit" id="btnEnviar" onclick="enviar()">Enviar Inscrição</button>
+            <a class="btn-voltar" href="https://www.ctgchamanativa.com.br">Voltar ao site</a>
+        </div>
+    </form>
+</main>
 
-            try {
-                // Usamos no-cors para evitar erros de bloqueio de resposta do navegador
-                await fetch(URL_SCRIPT, {
-                    method: "POST",
-                    mode: "no-cors",
-                    body: params,
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-                });
+<script>
+// URL DO SEU DEPLOY (Mantenha esta se for a última)
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzV_m3CsbwJZY-DIQvQcKQZ8qTOHl-Lh_YRMKPR3bCUJBedC-STEEj8bHhbyNM42nTn/exec"; 
+const listaCategorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
+const LIMITE_INST = 25;
 
-                status.innerText = "Comando enviado! Verifique a planilha 'GRUPOS' agora.";
-                status.style.color = "green";
-            } catch (e) {
-                status.innerText = "Erro no envio: " + e.message;
-                status.style.color = "red";
-            }
+// Inicializa os Accordions
+const container = document.getElementById("categoriasCont");
+listaCategorias.forEach(nome => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "category-box";
+    wrapper.innerHTML = `
+        <button type="button" class="accordion-btn" id="btn-${nome}" onclick="toggleCategoria('${nome}')">+ ${nome}</button>
+        <div id="conteudo-${nome}" class="accordion-content"></div>
+    `;
+    container.appendChild(wrapper);
+});
+
+function toggleCategoria(nome) {
+    const content = document.getElementById(`conteudo-${nome}`);
+    const btn = document.getElementById(`btn-${nome}`);
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        content.innerHTML = "";
+        btn.innerHTML = `+ ${nome}`;
+    } else {
+        abrirCategoria(nome);
+        content.style.maxHeight = content.scrollHeight + "px";
+        btn.innerHTML = `− Fechar ${nome}`;
+    }
+}
+
+function abrirCategoria(nome) {
+    const div = document.getElementById(`conteudo-${nome}`);
+    div.innerHTML = `
+        <div style="padding:10px" class="cat-data" data-nome="${nome}">
+            <table>
+                <tr>
+                    <td>Dança 1 *</td><td><input class="d1" required></td>
+                    <td>Dança 2 *</td><td><input class="d2" required></td>
+                </tr>
+                <tr>
+                    <td>Dança 3 *</td><td><input class="d3" required></td>
+                    <td>Musical *</td>
+                    <td><select class="mus" required><option value="">Selecione</option><option>Sim</option><option>Não</option></select></td>
+                </tr>
+                <tr>
+                    <td>Comprovante PIX *</td><td colspan="3"><input type="file" class="arq" required accept="image/*,application/pdf"></td>
+                </tr>
+            </table>
+            <div class="contador">Integrantes: <span id="cont-${nome}">0</span> / ${LIMITE_INST}</div>
+            <table>
+                <thead><tr><th>Nome</th><th>Nascimento</th><th>Cartão</th><th>Ação</th></tr></thead>
+                <tbody id="body-${nome}"></tbody>
+            </table>
+            <button type="button" class="btn-add" onclick="addIn('${nome}')">+ Adicionar Integrante</button>
+        </div>
+    `;
+}
+
+function addIn(cat) {
+    const tb = document.getElementById(`body-${cat}`);
+    if (tb.rows.length >= LIMITE_INST) return alert("Limite de 25 atingido");
+    const row = tb.insertRow();
+    row.innerHTML = `
+        <td><input required></td>
+        <td><input type="date" required></td>
+        <td><input required></td>
+        <td><button type="button" class="btn-remove" onclick="this.closest('tr').remove(); atualizarContador('${cat}')">X</button></td>
+    `;
+    atualizarContador(cat);
+    const content = document.getElementById(`conteudo-${cat}`);
+    content.style.maxHeight = content.scrollHeight + "px";
+}
+
+function atualizarContador(cat) { 
+    document.getElementById(`cont-${cat}`).innerText = document.getElementById(`body-${cat}`).rows.length; 
+}
+
+async function enviar() {
+    const btn = document.getElementById("btnEnviar");
+    const form = document.getElementById("formInscricao");
+    
+    if (!form.checkValidity()) return form.reportValidity();
+
+    let dadosCategorias = [];
+    let arquivoFinal = null;
+
+    // Captura apenas as categorias que possuem integrantes
+    for (let nome of listaCategorias) {
+        const tbody = document.getElementById(`body-${nome}`);
+        
+        if (tbody && tbody.rows.length > 0) {
+            const wrapper = document.querySelector(`.cat-data[data-nome="${nome}"]`);
+            const fileInput = wrapper.querySelector(".arq");
+            
+            // Se houver arquivo nessa categoria, ele será o comprovante da inscrição inteira
+            if (fileInput.files.length > 0) arquivoFinal = fileInput.files[0];
+
+            dadosCategorias.push({
+                nome: nome,
+                danca1: wrapper.querySelector(".d1").value,
+                danca2: wrapper.querySelector(".d2").value,
+                danca3: wrapper.querySelector(".d3").value,
+                musical: wrapper.querySelector(".mus").value,
+                integrantes: Array.from(tbody.rows).map(r => ({
+                    nome: r.cells[0].querySelector("input").value,
+                    nascimento: r.cells[1].querySelector("input").value,
+                    cartao: r.cells[2].querySelector("input").value
+                }))
+            });
         }
-    </script>
+    }
+
+    if (dadosCategorias.length === 0) return alert("Adicione ao menos uma categoria com integrantes.");
+
+    btn.disabled = true;
+    btn.innerText = "Processando arquivo...";
+
+    try {
+        let arqObj = null;
+        if (arquivoFinal) {
+            const reader = new FileReader();
+            const promise = new Promise(res => {
+                reader.onload = () => res(reader.result.split(",")[1]);
+                reader.readAsDataURL(arquivoFinal);
+            });
+            arqObj = { nome: arquivoFinal.name, tipo: arquivoFinal.type, base64: await promise };
+        }
+
+        const payload = {
+            entidade: document.getElementById("entidade").value,
+            municipio: document.getElementById("municipio").value,
+            rt: document.getElementById("rt").value,
+            email: document.getElementById("email").value,
+            patrao: document.getElementById("patrao").value,
+            whats: document.getElementById("whats").value,
+            responsavel: document.getElementById("responsavel").value,
+            pix: document.getElementById("pix").value,
+            categorias: dadosCategorias,
+            arquivo: arqObj
+        };
+
+        const params = new URLSearchParams();
+        params.append("dados", JSON.stringify(payload));
+
+        btn.innerText = "Enviando dados...";
+
+        await fetch(URL_SCRIPT, {
+            method: "POST",
+            mode: "no-cors",
+            body: params,
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        });
+
+        alert("Inscrição enviada com sucesso! Verifique sua planilha e e-mail.");
+        location.reload();
+
+    } catch (e) {
+        alert("Erro no envio: " + e.message);
+        btn.disabled = false;
+        btn.innerText = "Enviar Inscrição";
+    }
+}
+</script>
 </body>
 </html>
