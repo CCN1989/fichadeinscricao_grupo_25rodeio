@@ -1,355 +1,231 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ficha de Inscrição - CTG Chama Nativa</title>
-
-<style>
-body { font-family: Arial, sans-serif; background: #fff7f0; margin: 0; padding: 0; }
-header { width: 100%; margin: 0; padding: 0; }
-.testeira { width: 100%; display: block; }
-.header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: auto; }
-main { max-width: 1100px; margin: 30px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0px 0px 12px rgba(0,0,0,0.2); }
-.section-title { background: #ff7a00; color: white; padding: 12px; border-radius: 10px; margin-top: 40px; font-size: 18px; font-weight: bold; }
-.category-box { border: 2px solid #ffd2a8; padding: 15px; border-radius: 12px; margin-top: 20px; }
-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px; text-align: center; }
-th { background: #ffe0c2; }
-input, select { width: 95%; padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
-.btn-add { margin-top: 10px; background: #ff7a00; border: none; padding: 7px 14px; color: white; border-radius: 8px; cursor: pointer; }
-.btn-remove { background: red; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
-.botoes-final { display: flex; gap: 15px; margin-top: 50px; }
-.btn-submit { width: 50%; padding: 14px; background: #ff7a00; color: white; border: none; font-size: 18px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
-.btn-submit:hover { background: #e66e00; }
-.btn-submit:disabled { background: #ccc; cursor: not-allowed; }
-.btn-voltar { background: #cc5f00; text-decoration: none; display: flex; align-items: center; justify-content: center; }
-footer { text-align: center; margin: 40px 0 20px; font-size: 12px; color: gray; }
-
-/* Estilo do Accordion */
-.accordion-btn {
-  width: 100%; background: #fff; border: 1px solid #ff7a00; color: #ff7a00;
-  padding: 10px; text-align: left; font-size: 18px; font-weight: bold;
-  cursor: pointer; border-radius: 8px; transition: 0.3s;
-}
-.accordion-btn:hover { background: #fff1e6; }
-.accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-.contador { margin: 10px 0; font-weight: bold; color: #cc5f00; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Inscrição - CTG Chama Nativa</title>
+    <style>
+        /* Mantendo seu CSS original */
+        body { font-family: Arial, sans-serif; background: #fff7f0; margin: 0; padding: 0; }
+        header { width: 100%; margin: 0; padding: 0; }
+        .testeira { width: 100%; display: block; }
+        main { max-width: 1100px; margin: 30px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0px 0px 12px rgba(0,0,0,0.2); }
+        .section-title { background: #ff7a00; color: white; padding: 12px; border-radius: 10px; margin-top: 40px; font-size: 18px; font-weight: bold; }
+        .category-box { border: 2px solid #ffd2a8; padding: 15px; border-radius: 12px; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px; text-align: center; }
+        th { background: #ffe0c2; }
+        input, select { width: 95%; padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
+        .btn-add { margin-top: 10px; background: #ff7a00; border: none; padding: 7px 14px; color: white; border-radius: 8px; cursor: pointer; }
+        .btn-remove { background: red; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+        .botoes-final { display: flex; gap: 15px; margin-top: 50px; }
+        .btn-submit { width: 50%; padding: 14px; background: #ff7a00; color: white; border: none; font-size: 18px; border-radius: 12px; cursor: pointer; }
+        .btn-voltar { background: #cc5f00; text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; width: 50%; border-radius: 12px; }
+        .accordion-btn { width: 100%; background: #fff; border: 1px solid #ff7a00; color: #ff7a00; padding: 10px; text-align: left; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 8px; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .contador { margin: 10px 0; font-weight: bold; color: #cc5f00; }
+    </style>
 </head>
-
 <body>
 
 <header>
-  <div class="header-top">
-    <img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png" alt="Testeira Oficial">
-  </div>
+    <img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png">
 </header>
 
 <main>
-  <form id="formInscricao">
-    <div class="section-title">Dados da Entidade</div>
-    <div class="category-box">
-      <table>
-        <tr>
-          <td>Entidade *</td><td><input id="entidade" required></td>
-          <td>Município *</td><td><input id="municipio" required></td>
-        </tr>
-        <tr>
-          <td>RT *</td>
-          <td>
-  <select id="rt" required>
-    <option value="">Selecione a RT</option>
-    <option>1ª RT</option>
-    <option>2ª RT</option>
-    <option>3ª RT</option>
-    <option>4ª RT</option>
-    <option>5ª RT</option>
-    <option>6ª RT</option>
-    <option>7ª RT</option>
-    <option>8ª RT</option>
-    <option>9ª RT</option>
-    <option>10ª RT</option>
-    <option>11ª RT</option>
-    <option>12ª RT</option>
-    <option>13ª RT</option>
-    <option>14ª RT</option>
-    <option>15ª RT</option>
-    <option>16ª RT</option>
-    <option>17ª RT</option>
-    <option>18ª RT</option>
-    <option>19ª RT</option>
-    <option>20ª RT</option>
-    <option>21ª RT</option>
-    <option>22ª RT</option>
-    <option>23ª RT</option>
-    <option>24ª RT</option>
-    <option>25ª RT</option>
-    <option>26ª RT</option>
-    <option>27ª RT</option>
-    <option>28ª RT</option>
-    <option>29ª RT</option>
-    <option>30ª RT</option>
-  </select>
-</td>
-          <td>Email *</td><td><input type="email" id="email" required></td>
-        </tr>
-        <tr>
-          <td>Patrão</td><td><input id="patrao"></td>
-          <td>WhatsApp *</td><td><input id="whats" placeholder="(00) 00000-0000" required></td>
-        </tr>
-        <tr>
-          <td>Responsável Inscrição *</td>
-          <td colspan="3"><input id="responsavel" required></td>
-        </tr>
-        <tr>
-          <td>Chave "PIX" (ressarcimento caução) *</td>
-          <td colspan="3"><input id="pix" required></td>
-        </tr>
-      </table>
-    </div>
+    <form id="formInscricao">
+        <div class="section-title">Dados da Entidade</div>
+        <div class="category-box">
+            <table>
+                <tr>
+                    <td>Entidade *</td><td><input id="entidade" required></td>
+                    <td>Município *</td><td><input id="municipio" required></td>
+                </tr>
+                <tr>
+                    <td>RT *</td>
+                    <td>
+                        <select id="rt" required>
+                            <option value="">Selecione</option>
+                            <option>1ª RT</option><option>12ª RT</option><option>13ª RT</option>
+                        </select>
+                    </td>
+                    <td>Email *</td><td><input type="email" id="email" required></td>
+                </tr>
+                <tr>
+                    <td>Patrão</td><td><input id="patrao"></td>
+                    <td>WhatsApp *</td><td><input id="whats" required></td>
+                </tr>
+                <tr>
+                    <td>Responsável *</td><td colspan="3"><input id="responsavel" required></td>
+                </tr>
+                <tr>
+                    <td>Chave PIX *</td><td colspan="3"><input id="pix" required></td>
+                </tr>
+            </table>
+        </div>
 
-    <div class="section-title">Categorias</div>
-    <div id="categorias"></div>
+        <div class="section-title">Categorias</div>
+        <div id="categorias"></div>
 
-    <div class="botoes-final">
-      <button type="button" class="btn-submit" id="btnEnviar" onclick="enviar()">Enviar Inscrição</button>
-      <a class="btn-submit btn-voltar" href="https://www.ctgchamanativa.com.br">Voltar ao site</a>
-    </div>
-  </form>
+        <div class="botoes-final">
+            <button type="button" class="btn-submit" id="btnEnviar" onclick="enviar()">Enviar Inscrição</button>
+            <a class="btn-voltar" href="https://www.ctgchamanativa.com.br">Voltar ao site</a>
+        </div>
+    </form>
 </main>
 
-<footer>Sistema de inscrição - CTG Chama Nativa © 2026</footer>
-
-<div id="modalSucesso" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; z-index:9999;">
-  <div style="background:white; padding:40px; border-radius:15px; text-align:center; width:350px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-    <h2 style="color:green; margin-top:0;">✔ Sucesso!</h2>
-    <p>Sua inscrição foi enviada corretamente. Verifique seu e-mail para confirmação ou lista de espera.</p>
-    <button onclick="location.reload()" style="margin-top:20px; padding:12px 25px; background:#ff7a00; border:none; color:white; border-radius:8px; cursor:pointer; font-weight:bold;">OK</button>
-  </div>
-</div>
-
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwTJ2C7ahU7FKOm-dim3_dwzUKeV51XQbuz5VVIMiQNEq0Sfz9k_zYRroHfg4ifLmc6/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyy7fi3TRTtQ_BLiVqM_AEagdqNfvkQcnpT5zplyYBIKuz02le9Tsk0hKtRwqzYqZch/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
-const LIMITE_INTEGRANTES = 25;
+const LIMITE_INST = 25;
 
+// Inicializa os Accordions
 const container = document.getElementById("categorias");
-
-// Gera os accordions das categorias
 categorias.forEach(nome => {
-  const wrapper = document.createElement("div");
-  wrapper.className = "category-box";
-  wrapper.innerHTML = `
-    <button type="button" class="accordion-btn" id="btn-${nome}" onclick="toggleCategoria('${nome}')">+ ${nome}</button>
-    <div id="conteudo-${nome}" class="accordion-content"></div>
-  `;
-  container.appendChild(wrapper);
+    const wrapper = document.createElement("div");
+    wrapper.className = "category-box";
+    wrapper.innerHTML = `
+        <button type="button" class="accordion-btn" id="btn-${nome}" onclick="toggleCategoria('${nome}')">+ ${nome}</button>
+        <div id="conteudo-${nome}" class="accordion-content"></div>
+    `;
+    container.appendChild(wrapper);
 });
 
 function toggleCategoria(nome) {
-  const content = document.getElementById(`conteudo-${nome}`);
-  const btn = document.getElementById(`btn-${nome}`);
-
-  if (content.style.maxHeight && content.style.maxHeight !== "0px") {
-    content.style.maxHeight = "0px";
-    btn.innerHTML = `+ ${nome}`;
-    // Limpamos o HTML após a animação para não enviar dados de abas fechadas
-    setTimeout(() => { content.innerHTML = ""; }, 300);
-  } else {
-    abrirCategoria(nome);
-    btn.innerHTML = `− Fechar ${nome}`;
-  }
+    const content = document.getElementById(`conteudo-${nome}`);
+    const btn = document.getElementById(`btn-${nome}`);
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        content.innerHTML = "";
+        btn.innerHTML = `+ ${nome}`;
+    } else {
+        abrirCategoria(nome);
+        content.style.maxHeight = content.scrollHeight + "px";
+        btn.innerHTML = `− Fechar ${nome}`;
+    }
 }
 
 function abrirCategoria(nome) {
-  const div = document.getElementById(`conteudo-${nome}`);
-  div.innerHTML = `
-    <div style="padding: 15px 0;">
-      <table>
-        <tr>
-          <td>Dança 1 *</td><td><input required></td>
-          <td>Dança 2 *</td><td><input required></td>
-        </tr>
-        <tr>
-          <td>Dança 3 *</td><td><input required></td>
-          <td>Musical *</td>
-          <td>
-            <select required>
-              <option value="">Selecione</option>
-              <option>Sim</option>
-              <option>Não</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>Comprovante PIX (Anexo único) *</td>
-          <td colspan="3"><input type="file" accept="image/*,.pdf" required></td>
-        </tr>
-      </table>
-      <div class="contador">Integrantes: <span id="contador-${nome}">0</span> / ${LIMITE_INTEGRANTES}</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Integrante *</th>
-            <th>Nascimento *</th>
-            <th>Cartão *</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody id="${nome}-body"></tbody>
-      </table>
-      <button type="button" class="btn-add" onclick="addIntegrante('${nome}')">+ Adicionar Integrante</button>
-    </div>
-  `;
-  atualizarAltura(nome);
+    const div = document.getElementById(`conteudo-${nome}`);
+    div.innerHTML = `
+        <div style="padding:10px">
+            <table>
+                <tr>
+                    <td>Dança 1 *</td><td><input class="d1" required></td>
+                    <td>Dança 2 *</td><td><input class="d2" required></td>
+                </tr>
+                <tr>
+                    <td>Dança 3 *</td><td><input class="d3" required></td>
+                    <td>Musical *</td>
+                    <td><select class="mus" required><option value="">Selecione</option><option>Sim</option><option>Não</option></select></td>
+                </tr>
+                <tr>
+                    <td>Comprovante PIX *</td><td colspan="3"><input type="file" class="arq" required></td>
+                </tr>
+            </table>
+            <div class="contador">Integrantes: <span id="cont-${nome}">0</span> / ${LIMITE_INST}</div>
+            <table id="tab-${nome}">
+                <thead><tr><th>Nome</th><th>Nascimento</th><th>Cartão</th><th>Ação</th></tr></thead>
+                <tbody id="body-${nome}"></tbody>
+            </table>
+            <button type="button" class="btn-add" onclick="addIn('${nome}')">+ Integrante</button>
+        </div>
+    `;
+    atualizarAltura(nome);
 }
 
-function addIntegrante(cat) {
-  const tbody = document.getElementById(`${cat}-body`);
-  if (tbody.rows.length >= LIMITE_INTEGRANTES) {
-    alert("Limite máximo de integrantes atingido.");
-    return;
-  }
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td><input required></td>
-    <td><input type="date" required></td>
-    <td><input required></td>
-    <td><button type="button" class="btn-remove" onclick="removeRow(this, '${cat}')">X</button></td>
-  `;
-  tbody.appendChild(row);
-  atualizarContador(cat);
-  atualizarAltura(cat);
+function addIn(cat) {
+    const tb = document.getElementById(`body-${cat}`);
+    if (tb.rows.length >= LIMITE_INST) return alert("Limite atingido");
+    const row = tb.insertRow();
+    row.innerHTML = `<td><input required></td><td><input type="date" required></td><td><input required></td><td><button type="button" class="btn-remove" onclick="this.closest('tr').remove(); atualizarContador('${cat}')">X</button></td>`;
+    atualizarContador(cat);
+    atualizarAltura(cat);
 }
 
-function removeRow(btn, cat) {
-  btn.closest("tr").remove();
-  atualizarContador(cat);
-  atualizarAltura(cat);
-}
-
-function atualizarContador(cat) {
-  const tbody = document.getElementById(`${cat}-body`);
-  if(tbody) document.getElementById(`contador-${cat}`).innerText = tbody.rows.length;
+function atualizarContador(cat) { 
+    document.getElementById(`cont-${cat}`).innerText = document.getElementById(`body-${cat}`).rows.length; 
 }
 
 function atualizarAltura(nome) {
-  const content = document.getElementById(`conteudo-${nome}`);
-  content.style.maxHeight = content.scrollHeight + "px";
+    const content = document.getElementById(`conteudo-${nome}`);
+    content.style.maxHeight = content.scrollHeight + "px";
 }
 
 async function enviar() {
-  const btn = document.getElementById("btnEnviar");
-  const form = document.getElementById("formInscricao");
-  
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    return;
-  }
+    const btn = document.getElementById("btnEnviar");
+    const form = document.getElementById("formInscricao");
+    if (!form.checkValidity()) return form.reportValidity();
 
-  let categoriasEnviar = [];
-  let arquivoParaBase64 = null;
+    let dadosCategorias = [];
+    let arquivoFinal = null;
 
-  // Percorre a lista de nomes definidos na const categorias
-  for (let nome of categorias) {
-    const content = document.getElementById(`conteudo-${nome}`);
-    const tbody = document.getElementById(`${nome}-body`);
-    
-    // SÓ ENTRA SE A CATEGORIA ESTIVER ABERTA (com HTML gerado)
-    if (content && content.innerHTML.trim() !== "" && tbody) {
-      const inputsTopo = content.querySelectorAll("table input, table select");
-      const fileInput = content.querySelector('input[type="file"]');
+    for (let nome of categorias) {
+        const cont = document.getElementById(`conteudo-${nome}`);
+        const tbody = document.getElementById(`body-${nome}`);
+        if (cont && cont.style.maxHeight && tbody && tbody.rows.length > 0) {
+            
+            const fileInput = cont.querySelector(".arq");
+            if (fileInput.files.length > 0) arquivoFinal = fileInput.files[0];
 
-      if (tbody.rows.length === 0) {
-        alert(`Adicione integrantes na categoria: ${nome}`);
-        return;
-      }
-      
-      if (fileInput && fileInput.files.length > 0) {
-        arquivoParaBase64 = fileInput.files[0];
-      }
-
-      categoriasEnviar.push({
-        nome: nome,
-        danca1: inputsTopo[0].value,
-        danca2: inputsTopo[1].value,
-        danca3: inputsTopo[2].value,
-        musical: inputsTopo[3].value,
-        integrantes: Array.from(tbody.rows).map(row => ({
-          nome: row.cells[0].querySelector("input").value,
-          nascimento: row.cells[1].querySelector("input").value,
-          cartao: row.cells[2].querySelector("input").value
-        }))
-      });
-    }
-  }
-
-  if (categoriasEnviar.length === 0) {
-    alert("Abra uma categoria e adicione integrantes antes de enviar.");
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerText = "Processando Arquivo...";
-
-  try {
-    let arquivoObj = null;
-    if (arquivoParaBase64) {
-      const reader = new FileReader();
-      const base64Promise = new Promise(resolve => {
-        reader.onload = () => resolve(reader.result.split(",")[1]);
-        reader.readAsDataURL(arquivoParaBase64);
-      });
-      arquivoObj = {
-        nome: arquivoParaBase64.name,
-        tipo: arquivoParaBase64.type,
-        base64: await base64Promise
-      };
+            dadosCategorias.push({
+                nome: nome,
+                danca1: cont.querySelector(".d1").value,
+                danca2: cont.querySelector(".d2").value,
+                danca3: cont.querySelector(".d3").value,
+                musical: cont.querySelector(".mus").value,
+                integrantes: Array.from(tbody.rows).map(r => ({
+                    nome: r.cells[0].querySelector("input").value,
+                    nascimento: r.cells[1].querySelector("input").value,
+                    cartao: r.cells[2].querySelector("input").value
+                }))
+            });
+        }
     }
 
-    const payload = {
-      entidade: document.getElementById("entidade").value,
-      municipio: document.getElementById("municipio").value,
-      rt: document.getElementById("rt").value,
-      email: document.getElementById("email").value,
-      patrao: document.getElementById("patrao").value,
-      whats: document.getElementById("whats").value,
-      responsavel: document.getElementById("responsavel").value,
-      pix: document.getElementById("pix").value,
-      categorias: categoriasEnviar,
-      arquivo: arquivoObj
-    };
+    if (dadosCategorias.length === 0) return alert("Adicione ao menos uma categoria com integrantes.");
 
-    btn.innerText = "Enviando Dados...";
+    btn.disabled = true;
+    btn.innerText = "Enviando...";
 
-    // Envio usando URLSearchParams para máxima compatibilidade
-    const params = new URLSearchParams();
-    params.append("dados", JSON.stringify(payload));
+    try {
+        let arqObj = null;
+        if (arquivoFinal) {
+            const reader = new FileReader();
+            const promise = new Promise(res => {
+                reader.onload = () => res(reader.result.split(",")[1]);
+                reader.readAsDataURL(arquivoFinal);
+            });
+            arqObj = { nome: arquivoFinal.name, tipo: arquivoFinal.type, base64: await promise };
+        }
 
-    // No seu HTML, substitua a parte do fetch por isso:
-    await fetch(URL_SCRIPT, {
-      method: "POST",
-      mode: "no-cors", 
-      body: params // Continua usando params (URLSearchParams)
-    });
+        const payload = {
+            entidade: document.getElementById("entidade").value,
+            municipio: document.getElementById("municipio").value,
+            rt: document.getElementById("rt").value,
+            email: document.getElementById("email").value,
+            patrao: document.getElementById("patrao").value,
+            whats: document.getElementById("whats").value,
+            responsavel: document.getElementById("responsavel").value,
+            pix: document.getElementById("pix").value,
+            categorias: dadosCategorias,
+            arquivo: arqObj
+        };
 
-    // Como o no-cors não permite ler a resposta "OK", exibimos o modal após o fetch
-    document.getElementById("modalSucesso").style.display = "flex";
+        const params = new URLSearchParams();
+        params.append("dados", JSON.stringify(payload));
 
-  } catch (e) {
-    console.error("Erro no envio:", e);
-    alert("Erro ao conectar com o servidor. Verifique sua internet.");
-  } finally {
-    btn.disabled = false;
-    btn.innerText = "Enviar Inscrição";
-  }
+        await fetch(URL_SCRIPT, { method: "POST", mode: "no-cors", body: params });
+
+        alert("Inscrição enviada com sucesso!");
+        location.reload();
+    } catch (e) {
+        alert("Erro: " + e.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "Enviar Inscrição";
+    }
 }
-  
 </script>
-
 </body>
 </html>
-
-
-
