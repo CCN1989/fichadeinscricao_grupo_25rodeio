@@ -130,7 +130,7 @@ footer { text-align: center; margin: 40px 0 20px; font-size: 12px; color: gray; 
 </div>
 
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxEH6i_dylH0uXK_0mHhfCAUWITZSvbccTH9LZOFLS-NFpcoYWJSKmpePpKdUn_sGNp/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzZBO_nrh8MnTtOw70HXKcu-jQ9ly3-wkZiJXMv6P09toEJT_5iHDg8zEkGmNZ5mngw/exec"; 
 const categorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
 
@@ -251,17 +251,24 @@ async function enviar() {
   let categoriasEnviar = [];
   let arquivoParaBase64 = null;
 
-  // Coleta dados APENAS das categorias que estão abertas e populadas
+  // Percorre a lista de nomes definidos na const categorias
   for (let nome of categorias) {
-    const tbody = document.getElementById(`${nome}-body`);
     const content = document.getElementById(`conteudo-${nome}`);
+    const tbody = document.getElementById(`${nome}-body`);
     
-    // Se a categoria está aberta e tem integrantes
-    if (tbody && tbody.rows.length > 0) {
-      const inputsTopo = content.querySelectorAll("table:first-of-type input, table:first-of-type select");
+    // SÓ ENTRA SE A CATEGORIA ESTIVER ABERTA (com HTML gerado)
+    if (content && content.innerHTML.trim() !== "" && tbody) {
+      const inputsTopo = content.querySelectorAll("table input, table select");
       const fileInput = content.querySelector('input[type="file"]');
+
+      if (tbody.rows.length === 0) {
+        alert(`Adicione integrantes na categoria: ${nome}`);
+        return;
+      }
       
-      if (fileInput.files.length > 0) arquivoParaBase64 = fileInput.files[0];
+      if (fileInput && fileInput.files.length > 0) {
+        arquivoParaBase64 = fileInput.files[0];
+      }
 
       categoriasEnviar.push({
         nome: nome,
@@ -279,7 +286,7 @@ async function enviar() {
   }
 
   if (categoriasEnviar.length === 0) {
-    alert("Por favor, abra uma categoria e adicione ao menos um integrante.");
+    alert("Abra uma categoria e adicione integrantes antes de enviar.");
     return;
   }
 
@@ -290,9 +297,8 @@ async function enviar() {
     let arquivoObj = null;
     if (arquivoParaBase64) {
       const reader = new FileReader();
-      const base64Promise = new Promise((resolve, reject) => {
+      const base64Promise = new Promise(resolve => {
         reader.onload = () => resolve(reader.result.split(",")[1]);
-        reader.onerror = reject;
         reader.readAsDataURL(arquivoParaBase64);
       });
       arquivoObj = {
@@ -315,32 +321,34 @@ async function enviar() {
       arquivo: arquivoObj
     };
 
-    btn.innerText = "Enviando para o Drive...";
+    btn.innerText = "Enviando Dados...";
 
+    // Envio usando URLSearchParams para máxima compatibilidade
     const params = new URLSearchParams();
     params.append("dados", JSON.stringify(payload));
 
-    // Envio com no-cors para evitar bloqueios de segurança do navegador
     await fetch(URL_SCRIPT, {
       method: "POST",
+      mode: "no-cors", // Evita erro de CORS do navegador
       body: params,
-      mode: "no-cors",
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     });
 
-    // Como no-cors não permite ler a resposta, exibimos o sucesso após o término da requisição
+    // Como o no-cors não permite ler a resposta "OK", exibimos o modal após o fetch
     document.getElementById("modalSucesso").style.display = "flex";
 
   } catch (e) {
-    console.error(e);
-    alert("Erro crítico: " + e.message);
+    console.error("Erro no envio:", e);
+    alert("Erro ao conectar com o servidor. Verifique sua internet.");
   } finally {
     btn.disabled = false;
     btn.innerText = "Enviar Inscrição";
   }
 }
+  
 </script>
 
 </body>
 </html>
+
 
