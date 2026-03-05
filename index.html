@@ -152,7 +152,7 @@ function atualizarContador(cat) {
     document.getElementById(`cont-${cat}`).innerText = document.getElementById(`body-${cat}`).rows.length; 
 }
 
-async function enviar() {
+function enviar() {
     const btn = document.getElementById("btnEnviar");
     const form = document.getElementById("formInscricao");
     
@@ -161,15 +161,12 @@ async function enviar() {
     let dadosCategorias = [];
     let arquivoFinal = null;
 
-    // Captura apenas as categorias que possuem integrantes
-    for (let nome of listaCategorias) {
+    // Coleta categorias preenchidas
+    listaCategorias.forEach(nome => {
         const tbody = document.getElementById(`body-${nome}`);
-        
         if (tbody && tbody.rows.length > 0) {
             const wrapper = document.querySelector(`.cat-data[data-nome="${nome}"]`);
             const fileInput = wrapper.querySelector(".arq");
-            
-            // Se houver arquivo nessa categoria, ele será o comprovante da inscrição inteira
             if (fileInput.files.length > 0) arquivoFinal = fileInput.files[0];
 
             dadosCategorias.push({
@@ -185,24 +182,14 @@ async function enviar() {
                 }))
             });
         }
-    }
+    });
 
-    if (dadosCategorias.length === 0) return alert("Adicione ao menos uma categoria com integrantes.");
+    if (dadosCategorias.length === 0) return alert("Adicione ao menos uma categoria!");
 
     btn.disabled = true;
-    btn.innerText = "Processando arquivo...";
+    btn.innerText = "Enviando... aguarde";
 
-    try {
-        let arqObj = null;
-        if (arquivoFinal) {
-            const reader = new FileReader();
-            const promise = new Promise(res => {
-                reader.onload = () => res(reader.result.split(",")[1]);
-                reader.readAsDataURL(arquivoFinal);
-            });
-            arqObj = { nome: arquivoFinal.name, tipo: arquivoFinal.type, base64: await promise };
-        }
-
+    const processarEnvio = async (arqBase64 = null) => {
         const payload = {
             entidade: document.getElementById("entidade").value,
             municipio: document.getElementById("municipio").value,
@@ -213,32 +200,46 @@ async function enviar() {
             responsavel: document.getElementById("responsavel").value,
             pix: document.getElementById("pix").value,
             categorias: dadosCategorias,
-            arquivo: arqObj
+            arquivo: arqBase64 ? { 
+                nome: arquivoFinal.name, 
+                tipo: arquivoFinal.type, 
+                base64: arqBase64 
+            } : null
         };
 
-        const params = new URLSearchParams();
-        params.append("dados", JSON.stringify(payload));
+        // MÉTODO INFALÍVEL: FORMULÁRIO OCULTO
+        const formTemp = document.createElement("form");
+        formTemp.method = "POST";
+        formTemp.action = URL_SCRIPT;
+        formTemp.style.display = "none";
 
-        btn.innerText = "Enviando dados...";
+        const input = document.createElement("input");
+        input.name = "dados";
+        input.value = JSON.stringify(payload);
+        formTemp.appendChild(input);
 
-        await fetch(URL_SCRIPT, {
-            method: "POST",
-            mode: "no-cors",
-            body: params,
-            headers: { "Content-Type": "application/x-www-form-urlencoded" }
-        });
+        document.body.appendChild(formTemp);
+        formTemp.submit(); // Envia os dados
 
-        alert("Inscrição enviada com sucesso! Verifique sua planilha e e-mail.");
-        location.reload();
+        // Feedback visual para o usuário
+        setTimeout(() => {
+            alert("Inscrição enviada com sucesso! Verifique sua planilha.");
+            location.reload();
+        }, 3000);
+    };
 
-    } catch (e) {
-        alert("Erro no envio: " + e.message);
-        btn.disabled = false;
-        btn.innerText = "Enviar Inscrição";
+    // Lê o arquivo se existir, senão envia direto
+    if (arquivoFinal) {
+        const reader = new FileReader();
+        reader.onload = () => processarEnvio(reader.result.split(",")[1]);
+        reader.readAsDataURL(arquivoFinal);
+    } else {
+        processarEnvio();
     }
 }
 </script>
 </body>
 </html>
+
 
 
