@@ -140,7 +140,7 @@ display:inline-block;
 
 <script>
 // --- CONFIGURAÇÃO: COLE SEU LINK DE DEPLOY ABAIXO ---
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbw0AuNlTNBJv1PeQWy9ohcAUhH657_gX-ZUSNnXmEzjAiXJwRpb8iwKz1karC0vSe1g6g/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyBTGN_quIJrmfK9QXP2MlgJux5pTPHmUdsr_aIkRimnxNl5_r71dom-zK0mTPfYjlncw/exec"; 
 
 const listaCategorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
@@ -243,11 +243,11 @@ async function enviar() {
             whats: document.getElementById("whats").value,
             responsavel: document.getElementById("responsavel").value,
             pix: document.getElementById("pix").value,
-            aceitouRegulamento: checkReg.checked ? "Sim" : "Não", // NOVA INFORMAÇÃO
+            aceitouRegulamento: document.getElementById("checkRegulamento").checked ? "Sim" : "Não", // Adicione esta linha
             categorias: dadosCategorias,
             arquivo: arqObj
         };
-
+        
         const params = new URLSearchParams();
         params.append("dados", JSON.stringify(payload));
 
@@ -269,6 +269,7 @@ async function enviar() {
 </script>
 </body>
 </html>
+
 
 
 
