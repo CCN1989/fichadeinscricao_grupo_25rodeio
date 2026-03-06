@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -108,8 +109,20 @@ display:inline-block;
                 <tr>
                     <td>Responsável p/ Inscrição *</td><td colspan="3"><input id="responsavel" required></td>
                 </tr>
-                <tr>
+            <tr>
                     <td>Identificação do PIX *</td><td colspan="3"><input id="pix" required placeholder="Chave PIX"></td>
+                </tr>
+                <tr>
+                    <td style="background: #fff5eb; font-weight: bold;">Regulamento *</td>
+                    <td colspan="3" style="text-align: left; padding-left: 15px;">
+                        <input type="checkbox" id="checkRegulamento" required style="width: auto; margin-right: 10px;">
+                        <label for="checkRegulamento">
+                            Li e concordo com o 
+                            <a href="https://drive.google.com/file/d/1HQv-1oisMiBJc-FFTsH5LWhiW16OCciP/view?usp=sharing" target="_blank" style="color: #d35400; font-weight: bold;">
+                                Regulamento do 25º Rodeio
+                            </a>
+                        </label>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -203,47 +216,23 @@ function addIn(cat) {
 
 async function enviar() {
     const form = document.getElementById("formInscricao");
+    const checkReg = document.getElementById("checkRegulamento");
+
     if (!form.checkValidity()) return form.reportValidity();
+    
+    // Validação extra do checkbox
+    if (!checkReg.checked) {
+        alert("Você precisa ler e aceitar o regulamento para prosseguir.");
+        return;
+    }
 
     let dadosCategorias = [];
     let arquivoFinal = null;
 
-    for (let nome of listaCategorias) {
-        const tbody = document.getElementById(`body-${nome}`);
-        if (tbody && tbody.rows.length > 0) {
-            const wrapper = document.querySelector(`.cat-data[data-nome="${nome}"]`);
-            const fileInput = wrapper.querySelector(".arq");
-            if (fileInput.files.length > 0) arquivoFinal = fileInput.files[0];
-
-            dadosCategorias.push({
-                nome: nome,
-                danca1: wrapper.querySelector(".d1").value,
-                danca2: wrapper.querySelector(".d2").value,
-                danca3: wrapper.querySelector(".d3").value,
-                musical: wrapper.querySelector(".mus").value,
-                integrantes: Array.from(tbody.rows).map(r => ({
-                    nome: r.cells[0].querySelector("input").value,
-                    nascimento: r.cells[1].querySelector("input").value,
-                    cartao: r.cells[2].querySelector("input").value
-                }))
-            });
-        }
-    }
-
-    if (dadosCategorias.length === 0) return alert("Erro: Você deve preencher ao menos uma categoria e adicionar integrantes.");
-
-    document.getElementById("loading").style.display = "flex";
+    // ... (mantenha a lógica de loop das categorias igual) ...
 
     try {
-        let arqObj = null;
-        if (arquivoFinal) {
-            const reader = new FileReader();
-            const base64 = await new Promise(res => {
-                reader.onload = () => res(reader.result.split(",")[1]);
-                reader.readAsDataURL(arquivoFinal);
-            });
-            arqObj = { nome: arquivoFinal.name, tipo: arquivoFinal.type, base64: base64 };
-        }
+        // ... (mantenha a lógica do FileReader igual) ...
 
         const payload = {
             entidade: document.getElementById("entidade").value,
@@ -254,6 +243,7 @@ async function enviar() {
             whats: document.getElementById("whats").value,
             responsavel: document.getElementById("responsavel").value,
             pix: document.getElementById("pix").value,
+            aceitouRegulamento: checkReg.checked ? "Sim" : "Não", // NOVA INFORMAÇÃO
             categorias: dadosCategorias,
             arquivo: arqObj
         };
@@ -272,7 +262,7 @@ async function enviar() {
         location.reload();
 
     } catch (e) {
-        alert("Ocorreu um erro no envio. Verifique sua conexão e tente novamente.");
+        alert("Ocorreu um erro no envio.");
         document.getElementById("loading").style.display = "none";
     }
 }
