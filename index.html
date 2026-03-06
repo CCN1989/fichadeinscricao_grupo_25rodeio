@@ -1,12 +1,10 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ficha de Inscrição Grupo - 25º Rodeio - CTG Chama Nativa</title>
-   <style>
+    <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff7f0; margin: 0; padding: 0; color: #333; }
         header { width: 100%; text-align: center; background: #fff7f0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         main {max-width:1100px;margin:30px auto;background:#fff;padding:25px;border-radius:15px;box-shadow:0 0 12px rgba(0,0,0,.2)}
@@ -19,61 +17,15 @@
         input:focus { border-color: #ff7a00; }
         .btn-add { margin-top: 15px; background: #27ae60; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .btn-remove { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
-        .botoes-final { display: flex; gap: 20px; margin-top: 50px; }
-        .btn-submit { width: 40%; padding: 18px; background: #ff7a00; color: white; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .botoes-final { display: flex; justify-content: center; gap: 20px; margin: 50px auto 0 auto; max-width: 600px; }
+        .btn-submit, .btn-voltar { width: 260px; padding: 14px; background: #ff7a00; color: white; border: none; font-size: 18px; border-radius: 12px; cursor: pointer; text-decoration: none; text-align: center; display: inline-block; transition: 0.3s; }
         .btn-submit:hover { background: #e66d00; }
-        .btn-voltar { width: 40%; background: #ff7a00; text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: bold; }
         .accordion-btn { width: 100%; background: #fff; border: 2px solid #ff7a00; color: #ff7a00; padding: 15px; text-align: left; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.2s; }
         .accordion-btn:hover { background: #fff5eb; }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
- header{
-width:100%;
-margin:0;
-padding:0;
-}
-
-.testeira{
-width:100%;
-height:auto;
-display:block;
-}
-
-.botoes-final{
-display:flex;
-justify-content:center;
-gap:20px;
-margin:50px auto 0 auto;
-max-width:600px;
-}
-.btn-submit,
-.btn-voltar{
-width:260px;
-padding:14px;
-background:#ff7a00;
-color:white;
-border:none;
-font-size:18px;
-border-radius:12px;
-cursor:pointer;
-text-decoration:none;
-text-align:center;
-display:inline-block;
-}
-
-.header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1100px;
-      margin: auto;
-    }
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 12px;
-      color: rgb(0, 0, 0);
-    }
+        .testeira { width: 100%; height: auto; display: block; }
+        footer { text-align: center; margin-top: 20px; font-size: 12px; color: #333; padding-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -84,9 +36,7 @@ display:inline-block;
 </div>
 
 <header>
-  <img class="testeira"
-       src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png"
-       alt="Testeira Oficial">
+  <img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png" alt="Testeira Oficial">
 </header>
 
 <main>
@@ -115,7 +65,7 @@ display:inline-block;
                 <tr>
                     <td>Responsável p/ Inscrição *</td><td colspan="3"><input id="responsavel" required></td>
                 </tr>
-            <tr>
+                <tr>
                     <td>Identificação do PIX *</td><td colspan="3"><input id="pix" required placeholder="Chave PIX"></td>
                 </tr>
                 <tr>
@@ -143,17 +93,16 @@ display:inline-block;
         </div>
     </form>
 </main>
+
 <footer>
   Sistema de Inscrição - CTG Chama Nativa © 2026 - dúvidas secretaria@ctgchamanativa.com.br
 </footer>
-<script>
-// --- CONFIGURAÇÃO: COLE SEU LINK DE DEPLOY ABAIXO ---
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyBTGN_quIJrmfK9QXP2MlgJux5pTPHmUdsr_aIkRimnxNl5_r71dom-zK0mTPfYjlncw/exec"; 
 
+<script>
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzClY7KV6Q5ep3KF8VBSr5bSgpWebjCOTqvwtN2YENko3Yx-v36BWEb33hl2MRPtsFPzA/exec"; 
 const listaCategorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
 
-// Criar Accordions
 const container = document.getElementById("categoriasCont");
 listaCategorias.forEach(nome => {
     const wrapper = document.createElement("div");
@@ -212,7 +161,7 @@ function abrirCategoria(nome) {
 
 function addIn(cat) {
     const tb = document.getElementById(`body-${cat}`);
-    if (tb.rows.length >= LIMITE_INTEGRANTES) return alert("Limite de integrantes atingido nesta categoria.");
+    if (tb.rows.length >= LIMITE_INTEGRANTES) return alert("Limite de integrantes atingido.");
     const row = tb.insertRow();
     row.innerHTML = `
         <td><input required></td>
@@ -224,23 +173,47 @@ function addIn(cat) {
 
 async function enviar() {
     const form = document.getElementById("formInscricao");
-    const checkReg = document.getElementById("checkRegulamento");
-
     if (!form.checkValidity()) return form.reportValidity();
-    
-    // Validação extra do checkbox
-    if (!checkReg.checked) {
-        alert("Você precisa ler e aceitar o regulamento para prosseguir.");
-        return;
-    }
 
     let dadosCategorias = [];
     let arquivoFinal = null;
 
-    // ... (mantenha a lógica de loop das categorias igual) ...
+    for (let nome of listaCategorias) {
+        const tbody = document.getElementById(`body-${nome}`);
+        if (tbody && tbody.rows.length > 0) {
+            const wrapper = document.querySelector(`.cat-data[data-nome="${nome}"]`);
+            const fileInput = wrapper.querySelector(".arq");
+            if (fileInput.files.length > 0) arquivoFinal = fileInput.files[0];
+
+            dadosCategorias.push({
+                nome: nome,
+                danca1: wrapper.querySelector(".d1").value,
+                danca2: wrapper.querySelector(".d2").value,
+                danca3: wrapper.querySelector(".d3").value,
+                musical: wrapper.querySelector(".mus").value,
+                integrantes: Array.from(tbody.rows).map(r => ({
+                    nome: r.cells[0].querySelector("input").value,
+                    nascimento: r.cells[1].querySelector("input").value,
+                    cartao: r.cells[2].querySelector("input").value
+                }))
+            });
+        }
+    }
+
+    if (dadosCategorias.length === 0) return alert("Adicione ao menos uma categoria e integrantes.");
+
+    document.getElementById("loading").style.display = "flex";
 
     try {
-        // ... (mantenha a lógica do FileReader igual) ...
+        let arqObj = null;
+        if (arquivoFinal) {
+            const reader = new FileReader();
+            const base64 = await new Promise(res => {
+                reader.onload = () => res(reader.result.split(",")[1]);
+                reader.readAsDataURL(arquivoFinal);
+            });
+            arqObj = { nome: arquivoFinal.name, tipo: arquivoFinal.type, base64: base64 };
+        }
 
         const payload = {
             entidade: document.getElementById("entidade").value,
@@ -251,11 +224,11 @@ async function enviar() {
             whats: document.getElementById("whats").value,
             responsavel: document.getElementById("responsavel").value,
             pix: document.getElementById("pix").value,
-            aceitouRegulamento: document.getElementById("checkRegulamento").checked ? "Sim" : "Não", // Adicione esta linha
+            aceitouRegulamento: document.getElementById("checkRegulamento").checked ? "Sim" : "Não",
             categorias: dadosCategorias,
             arquivo: arqObj
         };
-        
+
         const params = new URLSearchParams();
         params.append("dados", JSON.stringify(payload));
 
@@ -268,23 +241,11 @@ async function enviar() {
 
         alert("Inscrição enviada com sucesso!");
         location.reload();
-
     } catch (e) {
-        alert("Ocorreu um erro no envio.");
+        alert("Erro no envio. Verifique a conexão.");
         document.getElementById("loading").style.display = "none";
     }
 }
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
