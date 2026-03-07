@@ -18,21 +18,26 @@
         .btn-add { margin-top: 15px; background: #27ae60; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .btn-remove { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
         .botoes-final { display: flex; justify-content: center; gap: 20px; margin: 50px auto 0 auto; max-width: 600px; }
-        .btn-submit, .btn-voltar { width: 260px; padding: 14px; background: #ff7a00; color: white; border: none; font-size: 18px; border-radius: 12px; cursor: pointer; text-decoration: none; text-align: center; display: inline-block; transition: 0.3s; }
-        .btn-submit:hover { background: #e66d00; }
+        .btn-submit, .btn-voltar { width: 260px; padding: 14px; background: #ff7a00; color: white; border: none; font-size: 18px; border-radius: 12px; cursor: pointer; text-decoration: none; text-align: center; display: inline-block; }
         .accordion-btn { width: 100%; background: #fff; border: 2px solid #ff7a00; color: #ff7a00; padding: 15px; text-align: left; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.2s; }
         .accordion-btn:hover { background: #fff5eb; }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
         .testeira { width: 100%; height: auto; display: block; }
-        footer { text-align: center; margin-top: 20px; font-size: 12px; color: #333; padding-bottom: 20px; }
+        .contador-vagas { font-weight: bold; color: #d35400; font-size: 14px; }
+        footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgb(0, 0, 0);
+    }
     </style>
 </head>
 <body>
 
 <div class="loading-overlay" id="loading">
     <h2 style="color: #ff7a00;">Processando Inscrição...</h2>
-    <p>Aguarde, estamos salvando os dados e o comprovante....</p>
+    <p>Aguarde, estamos salvando os dados....Boa Sorte!...</p>
 </div>
 
 <header>
@@ -66,7 +71,7 @@
                     <td>Responsável p/ Inscrição *</td><td colspan="3"><input id="responsavel" required></td>
                 </tr>
                 <tr>
-                    <td>Identificação do PIX *</td><td colspan="3"><input id="pix" required placeholder="Chave PIX"></td>
+                    <td>Identificação do PIX (devolução caução)*</td><td colspan="3"><input id="pix" required placeholder= Chave></td>
                 </tr>
                 <tr>
                     <td style="background: #fff5eb; font-weight: bold;">Regulamento *</td>
@@ -84,7 +89,7 @@
         </div>
 
         <div class="section-title">Categorias Artísticas</div>
-        <p style="font-size: 13px; color: #666; margin-left: 5px;">Clique na categoria para abrir o formulário específico.</p>
+        <p style="font-size: 13px; color: #666; margin-left: 5px;">Abra a categoria, preencha as danças, anexe o comprovante e adicione os integrantes.</p>
         <div id="categoriasCont"></div>
 
         <div class="botoes-final">
@@ -93,13 +98,12 @@
         </div>
     </form>
 </main>
-
 <footer>
   Sistema de Inscrição - CTG Chama Nativa © 2026 - dúvidas secretaria@ctgchamanativa.com.br
 </footer>
-
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzClY7KV6Q5ep3KF8VBSr5bSgpWebjCOTqvwtN2YENko3Yx-v36BWEb33hl2MRPtsFPzA/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbya_i7bu2awaqVK2JjWnyowPmp-e879kXgWyjLUdJCZGYbwot2moDPjOjFWEK-4cs2B/exec"; 
+
 const listaCategorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
 
@@ -121,12 +125,10 @@ function toggleCategoria(nome) {
         content.style.maxHeight = null;
         content.innerHTML = "";
         btn.innerHTML = `+ Categoria ${nome}`;
-        btn.style.background = "#fff";
     } else {
         abrirCategoria(nome);
         content.style.maxHeight = "2000px";
         btn.innerHTML = `− Fechar Categoria ${nome}`;
-        btn.style.background = "#fff5eb";
     }
 }
 
@@ -134,24 +136,19 @@ function abrirCategoria(nome) {
     const div = document.getElementById(`conteudo-${nome}`);
     div.innerHTML = `
         <div class="category-box cat-data" data-nome="${nome}">
-            <h4 style="margin-top:0; color:#d35400">Informações Técnicas - ${nome}</h4>
             <table style="margin-bottom:20px">
-                <tr>
-                    <td>Dança 1 *</td><td><input class="d1" required></td>
-                    <td>Dança 2 *</td><td><input class="d2" required></td>
-                </tr>
-                <tr>
-                    <td>Dança 3 *</td><td><input class="d3" required></td>
-                    <td>Musical *</td>
-                    <td><select class="mus" required><option value="">Selecione</option><option>Sim</option><option>Não</option></select></td>
-                </tr>
-                <tr>
-                    <td>Comprovante (Imagem/PDF) *</td><td colspan="3"><input type="file" class="arq" required accept="image/*,application/pdf"></td>
-                </tr>
+                <tr><td>Dança tradicional 1 *</td><td><input class="d1" required></td><td>Dança tradicional 2 *</td><td><input class="d2" required></td></tr>
+                <tr><td>Dança tradicional 3 *</td><td><input class="d3" required></td><td>Musical *</td><td><select class="mus" required><option value="">Selecione</option><option>Sim</option><option>Não</option></select></td></tr>
+                <tr><td>Comprovante (Imagem/PDF) *</td><td colspan="3"><input type="file" class="arq" required accept="image/*,application/pdf"></td></tr>
             </table>
-            <h4 style="color:#d35400">Lista de Integrantes (Máx ${LIMITE_INTEGRANTES})</h4>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px">
+                <h4 style="color:#d35400; margin:0">Lista de Integrantes</h4>
+                <span class="contador-vagas" id="cont-${nome}">0 / ${LIMITE_INTEGRANTES}</span>
+            </div>
+
             <table>
-                <thead><tr><th>Nome Completo</th><th>Nascimento</th><th>Cartão MTG</th><th>Remover</th></tr></thead>
+                <thead><tr><th>Nome Completo</th><th>Nascimento</th><th>Nº Cartão Tradicionalista </th><th style="width:40px">X</th></tr></thead>
                 <tbody id="body-${nome}"></tbody>
             </table>
             <button type="button" class="btn-add" onclick="addIn('${nome}')">+ Adicionar Integrante</button>
@@ -162,13 +159,25 @@ function abrirCategoria(nome) {
 function addIn(cat) {
     const tb = document.getElementById(`body-${cat}`);
     if (tb.rows.length >= LIMITE_INTEGRANTES) return alert("Limite de integrantes atingido.");
+    
     const row = tb.insertRow();
     row.innerHTML = `
         <td><input required></td>
         <td><input type="date" required></td>
         <td><input required></td>
-        <td><button type="button" class="btn-remove" onclick="this.closest('tr').remove()">X</button></td>
+        <td><button type="button" class="btn-remove" onclick="removerIn(this, '${cat}')">X</button></td>
     `;
+    atualizarContador(cat);
+}
+
+function removerIn(btn, cat) {
+    btn.closest('tr').remove();
+    atualizarContador(cat);
+}
+
+function atualizarContador(cat) {
+    const total = document.getElementById(`body-${cat}`).rows.length;
+    document.getElementById(`cont-${cat}`).innerText = `${total} / ${LIMITE_INTEGRANTES}`;
 }
 
 async function enviar() {
@@ -177,13 +186,27 @@ async function enviar() {
 
     let dadosCategorias = [];
     let arquivoFinal = null;
+    let totalInscritosGeral = 0;
 
     for (let nome of listaCategorias) {
         const tbody = document.getElementById(`body-${nome}`);
         if (tbody && tbody.rows.length > 0) {
             const wrapper = document.querySelector(`.cat-data[data-nome="${nome}"]`);
             const fileInput = wrapper.querySelector(".arq");
-            if (fileInput.files.length > 0) arquivoFinal = fileInput.files[0];
+            
+            if (fileInput.files.length === 0) {
+                alert(`Por favor, anexe o comprovante na categoria ${nome}.`);
+                return;
+            }
+            arquivoFinal = fileInput.files[0];
+
+            const integrantes = Array.from(tbody.rows).map(r => ({
+                nome: r.cells[0].querySelector("input").value,
+                nascimento: r.cells[1].querySelector("input").value,
+                cartao: r.cells[2].querySelector("input").value
+            }));
+
+            totalInscritosGeral += integrantes.length;
 
             dadosCategorias.push({
                 nome: nome,
@@ -191,16 +214,15 @@ async function enviar() {
                 danca2: wrapper.querySelector(".d2").value,
                 danca3: wrapper.querySelector(".d3").value,
                 musical: wrapper.querySelector(".mus").value,
-                integrantes: Array.from(tbody.rows).map(r => ({
-                    nome: r.cells[0].querySelector("input").value,
-                    nascimento: r.cells[1].querySelector("input").value,
-                    cartao: r.cells[2].querySelector("input").value
-                }))
+                integrantes: integrantes
             });
         }
     }
 
-    if (dadosCategorias.length === 0) return alert("Adicione ao menos uma categoria e integrantes.");
+    if (totalInscritosGeral === 0) {
+        alert("Erro: Você deve adicionar integrantes em alguma categoria.");
+        return;
+    }
 
     document.getElementById("loading").style.display = "flex";
 
@@ -242,7 +264,7 @@ async function enviar() {
         alert("Inscrição enviada com sucesso!");
         location.reload();
     } catch (e) {
-        alert("Erro no envio. Verifique a conexão.");
+        alert("Erro técnico no envio. Verifique os dados.");
         document.getElementById("loading").style.display = "none";
     }
 }
