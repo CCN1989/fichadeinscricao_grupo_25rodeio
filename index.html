@@ -33,9 +33,9 @@
       color: rgb(0, 0, 0);
     }
 
-        #contadorInscricao{
+#contadorInscricao{
 width:100%;
-background:linear-gradient(90deg,#d35400,#ff7a00);
+background:linear-gradient(90deg,#fbff00,#ff8800);
 color:white;
 text-align:center;
 padding:18px;
@@ -66,34 +66,45 @@ border:2px solid #ff7a00;
 padding:15px;
 border-radius:10px;
 font-size:15px;
+
+display:flex;
+align-items:center;      /* centraliza vertical */
+justify-content:center;  /* centraliza horizontal */
+gap:10px;
+
+white-space:nowrap;      /* impede quebrar linha */
+text-align:center;
 }
 
 .regulamento-box input{
 transform:scale(1.3);
-margin-right:10px;
+margin-right:5px;
 }
 
 /* BOTÕES MODERNOS */
 
 .btn-submit{
-background:linear-gradient(90deg,#ff7a00,#ff5500);
+background: #ff5500);
 transition:0.3s;
 box-shadow:0 4px 10px rgba(0,0,0,.2);
 }
 
 .btn-submit:hover{
+background:#ffd900;
 transform:scale(1.05);
 box-shadow:0 6px 14px rgba(0,0,0,.3);
 }
 
 .btn-voltar{
-background:#555;
+background:#ff5500;
 transition:0.3s;
+
 }
 
 .btn-voltar:hover{
-background:#333;
+background:#ffd900;
 transform:scale(1.05);
+box-shadow:0 6px 14px rgba(0,0,0,.3);
 }
 
 .btn-add{
@@ -135,7 +146,7 @@ border-radius:6px;
 <header>
   <img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png" alt="Testeira Oficial">
 <div id="contadorInscricao">
-⏳ Encerramento das Inscrições em
+⏳ Encerramento das Inscrições.....
 <div id="tempoRestante"></div>
 </div>
 </header>
@@ -177,26 +188,14 @@ border-radius:6px;
 <input type="checkbox" id="checkRegulamento" required>
 
 <label for="checkRegulamento">
-Li e concordo com o
-<a href="https://drive.google.com/file/d/1HQv-1oisMiBJc-FFTsH5LWhiW16OCciP/view?usp=sharing" target="_blank" style="color:#d35400;font-weight:bold;">
+Li e concordo com o 
+<a href="https://drive.google.com/file/d/1HQv-1oisMiBJc-FFTsH5LWhiW16OCciP/view?usp=sharing" target="_blank">
 Regulamento do 25º Rodeio
 </a>
 </label>
 
 </div>
-</td>
-                        <input type="checkbox" id="checkRegulamento" required style="width: auto; margin-right: 10px;">
-                        <label for="checkRegulamento">
-                            Li e concordo com o 
-                            <a href="https://drive.google.com/file/d/1HQv-1oisMiBJc-FFTsH5LWhiW16OCciP/view?usp=sharing" target="_blank" style="color: #d35400; font-weight: bold;">
-                                Regulamento do 25º Rodeio
-                            </a>
-                        </label>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
+</table>
         <div class="section-title">Categorias Artísticas</div>
         <p style="font-size: 13px; color: #666; margin-left: 5px;">Abra a categoria, preencha as danças, anexe o comprovante e adicione os integrantes.</p>
         <div id="categoriasCont"></div>
