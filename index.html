@@ -44,7 +44,6 @@
 <header>
   <img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png" alt="Testeira Oficial">
 <div id="contado">⏳ <span id="tempoRestante"></span></div>
-
 </header>
 
 <main>
@@ -105,7 +104,7 @@
   Sistema de Inscrição - CTG Chama Nativa © 2026 - dúvidas secretaria@ctgchamanativa.com.br
 </footer>
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxwX5dl10ZRmf5yFiCHgQk9_61oI6rSpaI5AAJGI2zOTWcgCRaT5gmIS_4juBzrcpEr/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbya_i7bu2awaqVK2JjWnyowPmp-e879kXgWyjLUdJCZGYbwot2moDPjOjFWEK-4cs2B/exec"; 
 
 // Contador
 const encerramento = new Date('2026-04-12T23:59:59-03:00');
@@ -117,7 +116,7 @@ function atualizarContado() {
   document.getElementById('tempoRestante').innerText = `Encerra em: ${d}d ${h}h ${m}m ${s}s`;
 }
 setInterval(atualizarContado, 1000); atualizarContado();
-    
+
 const listaCategorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
 
@@ -285,6 +284,3 @@ async function enviar() {
 </script>
 </body>
 </html>
-
-
-
