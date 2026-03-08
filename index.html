@@ -43,7 +43,6 @@
 
 <header>
   <img class="testeira" src="https://raw.githubusercontent.com/CCN1989/Imagens/refs/heads/main/testeira%20ficha%20GRP.png" alt="Testeira Oficial">
-<div id="contador">⏳ <span id="tempoRestante"></span></div>
 </header>
 
 <main>
@@ -105,17 +104,6 @@
 </footer>
 <script>
 const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxwX5dl10ZRmf5yFiCHgQk9_61oI6rSpaI5AAJGI2zOTWcgCRaT5gmIS_4juBzrcpEr/exec"; 
-
-// Contador
-const encerramento = new Date('2026-04-12T23:59:59-03:00');
-function atualizarContado() {
-  const diff = encerramento - new Date();
-  if (diff <= 0) { document.getElementById('formInscricao').style.display='none'; return; }
-  const d = Math.floor(diff/86400000); const h = Math.floor(diff/3600000)%24;
-  const m = Math.floor(diff/60000)%60; const s = Math.floor(diff/1000)%60;
-  document.getElementById('tempoRestante').innerText = `Encerra em: ${d}d ${h}h ${m}m ${s}s`;
-}
-setInterval(atualizarContado, 1000); atualizarContado();
 
 const listaCategorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
@@ -284,4 +272,5 @@ async function enviar() {
 </script>
 </body>
 </html>
+
 
