@@ -25,115 +25,33 @@
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
         .testeira { width: 100%; height: auto; display: block; }
         .contador-vagas { font-weight: bold; color: #d35400; font-size: 14px; }
-        #contado { background: #ff7a00; color: #fff; text-align: center; padding: 14px; font-weight: bold; }
-        footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 12px;
-      color: rgb(0, 0, 0);
-    }
-
-#contadorInscricao{
-width:100%;
-background:linear-gradient(90deg,#fbff00,#ff8800);
-color:white;
-text-align:center;
-padding:18px;
-font-size:20px;
-font-weight:bold;
-letter-spacing:1px;
+        footer { text-align: center; margin-top: 20px; font-size: 12px; color: rgb(0, 0, 0); }
+        #contadorInscricao{ width:100%; background:linear-gradient(90deg,#fbff00,#ff8800); color:white; text-align:center; padding:15px; font-size:20px; font-weight:bold; letter-spacing:1px; }
+        #tempoRestante{ font-size:20px; margin-top:5px; }
+        #inscricoesEncerradas{ display:none; text-align:center; font-size:42px; font-weight:bold; color:#d35400; margin-top:80px; }
+        .regulamento-box{ background:#fff3e8; border:2px solid #ff7a00; padding:15px; border-radius:10px; font-size:15px; display:flex; align-items:center; justify-content:center; gap:10px; white-space:nowrap; text-align:center; }
+        .regulamento-box input{ transform:scale(1.3); margin-right:5px; }
+        .btn-submit{ transition:0.3s; box-shadow:0 4px 10px rgba(0,0,0,.2); }
+        .btn-submit:hover{ background:#ffd900; transform:scale(1.05); box-shadow:0 6px 14px rgba(0,0,0,.3); }
+        .btn-voltar{ transition:0.3s; }
+        .btn-voltar:hover{ background:#ffd900; transform:scale(1.05); box-shadow:0 6px 14px rgba(0,0,0,.3); }
+        .btn-add:hover{ transform:scale(1.05); }
+        .btn-remove:hover{ background:#c0392b; }
+        .contador-vagas{ font-weight:bold; color:#d35400; font-size:16px; background:#fff3e8; padding:5px 10px; border-radius:6px; }
+    
+    #contadorInscricao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Cria um espaço entre o texto e o tempo */
+    flex-wrap: wrap; /* Garante que quebre linha apenas em telas muito pequenas */
 }
 
-#tempoRestante{
-font-size:28px;
-margin-top:5px;
+#tempoRestante {
+    display: inline-block;
 }
 
-#inscricoesEncerradas{
-display:none;
-text-align:center;
-font-size:42px;
-font-weight:bold;
-color:#d35400;
-margin-top:80px;
-}
 
-/* CHECK REGULAMENTO */
-
-.regulamento-box{
-background:#fff3e8;
-border:2px solid #ff7a00;
-padding:15px;
-border-radius:10px;
-font-size:15px;
-
-display:flex;
-align-items:center;      /* centraliza vertical */
-justify-content:center;  /* centraliza horizontal */
-gap:10px;
-
-white-space:nowrap;      /* impede quebrar linha */
-text-align:center;
-}
-
-.regulamento-box input{
-transform:scale(1.3);
-margin-right:5px;
-}
-
-/* BOTÕES MODERNOS */
-
-.btn-submit{
-background: #ff5500);
-transition:0.3s;
-box-shadow:0 4px 10px rgba(0,0,0,.2);
-}
-
-.btn-submit:hover{
-background:#ffd900;
-transform:scale(1.05);
-box-shadow:0 6px 14px rgba(0,0,0,.3);
-}
-
-.btn-voltar{
-background:#ff5500;
-transition:0.3s;
-
-}
-
-.btn-voltar:hover{
-background:#ffd900;
-transform:scale(1.05);
-box-shadow:0 6px 14px rgba(0,0,0,.3);
-}
-
-.btn-add{
-background:linear-gradient(90deg,#27ae60,#2ecc71);
-}
-
-.btn-add:hover{
-transform:scale(1.05);
-}
-
-.btn-remove{
-background:#e74c3c;
-}
-
-.btn-remove:hover{
-background:#c0392b;
-}
-
-/* CONTADOR DE VAGAS */
-
-.contador-vagas{
-font-weight:bold;
-color:#d35400;
-font-size:16px;
-background:#fff3e8;
-padding:5px 10px;
-border-radius:6px;
-}
-        
     </style>
 </head>
 <body>
@@ -178,24 +96,25 @@ border-radius:6px;
                     <td>Responsável p/ Inscrição *</td><td colspan="3"><input id="responsavel" required></td>
                 </tr>
                 <tr>
-                    <td>Identificação do PIX (devolução caução)*</td><td colspan="3"><input id="pix" required placeholder= Chave></td>
+                    <td>Identificação do PIX (devolução caução)*</td><td colspan="3"><input id="pix" required placeholder="Chave"></td>
                 </tr>
                 <tr>
                     <td style="background: #fff5eb; font-weight: bold;">Regulamento *</td>
-<td colspan="3">
-<div class="regulamento-box">
+                    <td colspan="3">
+                        <div class="regulamento-box">
+                            <input type="checkbox" id="checkRegulamento" required disabled>
+                            <label for="checkRegulamento">
+                                Li e concordo com o 
+                                <a href="https://drive.google.com/uc?export=download&id=1qlSOrR6lkcLnH1dS_6An4OESMQp7BjH_" target="_blank" onclick="liberarCheck()">
+                                    Regulamento do 25º Rodeio (Click AQUI para prosseguir)
+                                </a>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-<input type="checkbox" id="checkRegulamento" required>
-
-<label for="checkRegulamento">
-Li e concordo com o 
-<a href="https://drive.google.com/file/d/1HQv-1oisMiBJc-FFTsH5LWhiW16OCciP/view?usp=sharing" target="_blank">
-Regulamento do 25º Rodeio
-</a>
-</label>
-
-</div>
-</table>
         <div class="section-title">Categorias Artísticas</div>
         <p style="font-size: 13px; color: #666; margin-left: 5px;">Abra a categoria, preencha as danças, anexe o comprovante e adicione os integrantes.</p>
         <div id="categoriasCont"></div>
@@ -209,48 +128,66 @@ Regulamento do 25º Rodeio
 <footer>
   Sistema de Inscrição - CTG Chama Nativa © 2026 - dúvidas secretaria@ctgchamanativa.com.br
 </footer>
+
 <script>
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyHj8N2Jb7JJ7MdiwyTquv1RfNGzArSwJl3GTbx6ZNILi53u4WNzwjZgqUt2JP2Knut/exec"; 
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyGFtOSpa2YlpkL6FQBDzejfp1T9bGT7lxdHeFD-f4PviRmTZOr50hsiGQoRmAp0HGw/exec"; 
 
-const encerramento = new Date('2026-04-12T23:59:59-03:00');
+// Data de encerramento
+const encerramento = new Date('2026-04-12T23:59:59-03:00').getTime();
 
-function atualizarContado(){
+function atualizarContado() {
+    const agora = new Date().getTime();
+    const diff = encerramento - agora;
 
-const agora = new Date().getTime();
-const limite = encerramento.getTime();
-const diff = limite - agora;
+    // Seleciona os elementos uma única vez para performance
+    const form = document.getElementById("formInscricao");
+    const main = document.querySelector("main");
+    const displayTempo = document.getElementById("tempoRestante");
 
-if(diff <= 0){
+    if (diff <= 0) {
+        // 1. Para o relógio para não gastar processamento
+        clearInterval(intervaloCronometro);
 
-document.getElementById("formInscricao").style.display="none";
+        // 2. Esconde o formulário (se ele ainda existir)
+        if (form) form.style.display = "none";
 
-const main = document.querySelector("main");
-main.innerHTML = `
-<div id="inscricoesEncerradas">
-INSCRIÇÕES ENCERRADAS
-<br><br>
-<span style="font-size:20px;color:#555">
-25º Rodeio Crioulo<br>
-CTG Chama Nativa
-</span>
-</div>
-`;
+        // 3. Substitui todo o conteúdo do <main> pela mensagem
+        if (main) {
+            main.innerHTML = `
+                <div id="inscricoesEncerradas" style="display:block; text-align:center; padding:50px 0;">
+                    <h1 style="color:#d35400; font-size:42px;">INSCRIÇÕES ENCERRADAS</h1>
+                    <br>
+                    <span style="font-size:20px; color:#555;">
+                        25º Rodeio Nativista de Esteio<br>
+                        <strong>CTG Chama Nativa</strong>
+                    </span>
+                </div>`;
+        }
+        return;
+    }
 
-return;
+    // Cálculo do tempo
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+
+    // Exibe no HTML (Verifique se o ID no HTML é 'tempoRestante')
+    if (displayTempo) {
+        displayTempo.innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+    }
 }
 
-const dias = Math.floor(diff/(1000*60*60*24));
-const horas = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-const minutos = Math.floor((diff%(1000*60*60))/(1000*60));
-const segundos = Math.floor((diff%(1000*60))/1000);
+// Inicia o intervalo e armazena em uma variável para podermos pará-lo depois
+const intervaloCronometro = setInterval(atualizarContado, 1000);
 
-document.getElementById("tempoRestante").innerHTML =
-`${dias}d ${horas}h ${minutos}m ${segundos}s`;
-
-}
-
-setInterval(atualizarContado,1000);
+// Executa imediatamente para não esperar 1 segundo pela primeira exibição
 atualizarContado();
+
+// Função para liberar o checkbox após o clique no link
+function liberarCheck() {
+    document.getElementById("checkRegulamento").disabled = false;
+}
 
 const listaCategorias = ["Pré-Mirim", "Mirim", "Juvenil", "Adulta", "Veterana", "Xirú"];
 const LIMITE_INTEGRANTES = 25;
@@ -419,5 +356,3 @@ async function enviar() {
 </script>
 </body>
 </html>
-
-
