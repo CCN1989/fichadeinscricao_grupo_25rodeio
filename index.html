@@ -270,11 +270,20 @@ async function enviar() {
     if (!form.checkValidity()) return form.reportValidity();
 
     let dadosCategorias = [];
-    let arquivoFinal = null;
     let totalInscritosGeral = 0;
+
+    // Função auxiliar para converter arquivo em Base64
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = error => reject(error);
+    });
 
     for (let nome of listaCategorias) {
         const tbody = document.getElementById(`body-${nome}`);
+        
+        // Verifica se a categoria foi aberta e tem integrantes
         if (tbody && tbody.rows.length > 0) {
             const wrapper = document.querySelector(`.cat-data[data-nome="${nome}"]`);
             const fileInput = wrapper.querySelector(".arq");
@@ -283,7 +292,9 @@ async function enviar() {
                 alert(`Por favor, anexe o comprovante na categoria ${nome}.`);
                 return;
             }
-            arquivoFinal = fileInput.files[0];
+
+            const arquivo = fileInput.files[0];
+            const base64Data = await toBase64(arquivo);
 
             const integrantes = Array.from(tbody.rows).map(r => ({
                 nome: r.cells[0].querySelector("input").value,
@@ -293,35 +304,31 @@ async function enviar() {
 
             totalInscritosGeral += integrantes.length;
 
+            // Adiciona os dados da categoria E o arquivo específico dela
             dadosCategorias.push({
                 nome: nome,
                 danca1: wrapper.querySelector(".d1").value,
                 danca2: wrapper.querySelector(".d2").value,
                 danca3: wrapper.querySelector(".d3").value,
                 musical: wrapper.querySelector(".mus").value,
-                integrantes: integrantes
+                integrantes: integrantes,
+                comprovante: {
+                    nome: arquivo.name,
+                    tipo: arquivo.type,
+                    base64: base64Data
+                }
             });
         }
     }
 
     if (totalInscritosGeral === 0) {
-        alert("Erro: Você deve adicionar integrantes em alguma categoria.");
+        alert("Erro: Você deve adicionar integrantes em pelo menos uma categoria.");
         return;
     }
 
     document.getElementById("loading").style.display = "flex";
 
     try {
-        let arqObj = null;
-        if (arquivoFinal) {
-            const reader = new FileReader();
-            const base64 = await new Promise(res => {
-                reader.onload = () => res(reader.result.split(",")[1]);
-                reader.readAsDataURL(arquivoFinal);
-            });
-            arqObj = { nome: arquivoFinal.name, tipo: arquivoFinal.type, base64: base64 };
-        }
-
         const payload = {
             entidade: document.getElementById("entidade").value,
             municipio: document.getElementById("municipio").value,
@@ -332,8 +339,7 @@ async function enviar() {
             responsavel: document.getElementById("responsavel").value,
             pix: document.getElementById("pix").value,
             aceitouRegulamento: document.getElementById("checkRegulamento").checked ? "Sim" : "Não",
-            categorias: dadosCategorias,
-            arquivo: arqObj
+            categorias: dadosCategorias // Agora cada categoria aqui dentro tem seu 'comprovante'
         };
 
         const params = new URLSearchParams();
@@ -346,16 +352,17 @@ async function enviar() {
             headers: { "Content-Type": "application/x-www-form-urlencoded" }
         });
 
-        alert("Inscrição enviada com sucesso!");
+        alert("✅ Inscrição enviada com sucesso!");
         location.reload();
     } catch (e) {
-        alert("Erro técnico no envio. Verifique os dados.");
+        alert("❌ Erro técnico no envio. Verifique sua conexão.");
         document.getElementById("loading").style.display = "none";
     }
 }
 </script>
 </body>
 </html>
+
 
 
 
