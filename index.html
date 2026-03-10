@@ -105,7 +105,7 @@
                             <input type="checkbox" id="checkRegulamento" required disabled>
                             <label for="checkRegulamento">
                                 Li e concordo com o 
-                                <a href="https://drive.google.com/uc?export=download&id=1eWsihYxaeHVQItgD-ML07zVVHQ4sS3op" target="_blank" onclick="liberarCheck()">
+                                <a href="https://drive.google.com/uc?export=download&id=1vALvRsEpG1ngPwXaUOfm8v4PDgwd4cUM" target="_blank" onclick="liberarCheck()">
                                     Regulamento do 25º Rodeio (Click AQUI para prosseguir)
                                 </a>
                             </label>
@@ -282,8 +282,6 @@ async function enviar() {
 
     for (let nome of listaCategorias) {
         const tbody = document.getElementById(`body-${nome}`);
-        
-        // Verifica se a categoria foi aberta e tem integrantes
         if (tbody && tbody.rows.length > 0) {
             const wrapper = document.querySelector(`.cat-data[data-nome="${nome}"]`);
             const fileInput = wrapper.querySelector(".arq");
@@ -304,7 +302,6 @@ async function enviar() {
 
             totalInscritosGeral += integrantes.length;
 
-            // Adiciona os dados da categoria E o arquivo específico dela
             dadosCategorias.push({
                 nome: nome,
                 danca1: wrapper.querySelector(".d1").value,
@@ -322,7 +319,7 @@ async function enviar() {
     }
 
     if (totalInscritosGeral === 0) {
-        alert("Erro: Você deve adicionar integrantes em pelo menos uma categoria.");
+        alert("Erro: Adicione integrantes em alguma categoria.");
         return;
     }
 
@@ -339,7 +336,7 @@ async function enviar() {
             responsavel: document.getElementById("responsavel").value,
             pix: document.getElementById("pix").value,
             aceitouRegulamento: document.getElementById("checkRegulamento").checked ? "Sim" : "Não",
-            categorias: dadosCategorias // Agora cada categoria aqui dentro tem seu 'comprovante'
+            categorias: dadosCategorias
         };
 
         const params = new URLSearchParams();
@@ -352,17 +349,13 @@ async function enviar() {
             headers: { "Content-Type": "application/x-www-form-urlencoded" }
         });
 
-        alert("✅ Inscrição enviada com sucesso!");
+        alert("Inscrição enviada com sucesso!");
         location.reload();
     } catch (e) {
-        alert("❌ Erro técnico no envio. Verifique sua conexão.");
+        alert("Erro técnico no envio.");
         document.getElementById("loading").style.display = "none";
     }
 }
 </script>
 </body>
 </html>
-
-
-
-
